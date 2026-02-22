@@ -65,10 +65,12 @@ function GuestSelector({
             <button
                 type="button"
                 onClick={() => setOpen(!open)}
-                className="flex items-center gap-2.5 w-full bg-white/10 border border-white/20 text-white placeholder-white/50 px-4 h-12 text-sm text-left hover:border-white/40 transition-colors"
+                className="flex items-center gap-2.5 w-full bg-transparent px-4 h-14 text-sm text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-champagne"
             >
-                <GuestIcon />
-                <span className={total > 0 ? 'text-white' : 'text-white/60'}>
+                <div className="text-gray-500 pointer-events-none">
+                    <GuestIcon />
+                </div>
+                <span className={total > 0 ? 'text-gray-900 font-medium' : 'text-gray-500 font-medium'}>
                     {total > 0 ? labels.voyageurs : (lang === 'fr' ? 'Voyageurs' : 'Guests')}
                 </span>
             </button>
@@ -187,110 +189,76 @@ export default function BookingHero() {
                 {/* Search bar */}
                 <form
                     onSubmit={handleSearch}
-                    className="bg-white/10 backdrop-blur-md border border-white/15 p-2 flex flex-col lg:flex-row gap-2 items-stretch max-w-5xl mx-auto shadow-2xl"
+                    className="flex flex-col lg:flex-row gap-2 items-stretch max-w-5xl mx-auto drop-shadow-xl"
                 >
                     {/* Destination */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative">
                         <select
                             value={destination}
                             onChange={(e) => setDestination(e.target.value)}
-                            className="w-full bg-white/10 border border-white/20 text-white h-12 px-4 text-sm appearance-none cursor-pointer hover:border-white/40 transition-colors focus:outline-none focus:border-champagne"
-                            style={{ colorScheme: 'dark' }}
+                            className="w-full bg-transparent text-gray-700 font-medium h-14 px-4 text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-champagne"
                         >
-                            <option value="" style={{ color: '#000' }}>{content.dest}</option>
+                            <option value="" className="text-gray-400">{content.dest}</option>
                             {DESTINATIONS.map((d) => (
-                                <option key={d.slug} value={d.slug} style={{ color: '#000' }}>
+                                <option key={d.slug} value={d.slug} className="text-gray-900">
                                     {lang === 'en' ? d.labelEn : d.labelFr}
                                 </option>
                             ))}
                         </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+                        </div>
                     </div>
 
-                    {/* Divider */}
-                    <div className="hidden lg:block w-px bg-white/15 my-1" />
-
                     {/* Arrive */}
-                    <div className="flex-1 min-w-0 relative">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none">
+                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
                             <CalendarIcon />
                         </div>
                         <input
-                            type="date"
+                            type={arrive ? 'date' : 'text'}
+                            onFocus={(e) => (e.target.type = 'date')}
+                            onBlur={(e) => (!e.target.value ? (e.target.type = 'text') : null)}
                             value={arrive}
                             onChange={(e) => setArrive(e.target.value)}
                             placeholder={content.arrive}
                             min={new Date().toISOString().split('T')[0]}
-                            className="w-full bg-white/10 border border-white/20 text-white h-12 pl-10 pr-4 text-sm hover:border-white/40 transition-colors focus:outline-none focus:border-champagne"
-                            style={{ colorScheme: 'dark' }}
+                            className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-champagne placeholder:text-gray-500 placeholder:font-medium"
                         />
-                        {!arrive && (
-                            <span className="absolute left-10 top-1/2 -translate-y-1/2 text-white/55 text-sm pointer-events-none">
-                                {content.arrive}
-                            </span>
-                        )}
                     </div>
 
-                    {/* Divider */}
-                    <div className="hidden lg:block w-px bg-white/15 my-1" />
-
                     {/* Depart */}
-                    <div className="flex-1 min-w-0 relative">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none">
+                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
                             <CalendarIcon />
                         </div>
                         <input
-                            type="date"
+                            type={depart ? 'date' : 'text'}
+                            onFocus={(e) => (e.target.type = 'date')}
+                            onBlur={(e) => (!e.target.value ? (e.target.type = 'text') : null)}
                             value={depart}
                             onChange={(e) => setDepart(e.target.value)}
                             placeholder={content.depart}
                             min={arrive || new Date().toISOString().split('T')[0]}
-                            className="w-full bg-white/10 border border-white/20 text-white h-12 pl-10 pr-4 text-sm hover:border-white/40 transition-colors focus:outline-none focus:border-champagne"
-                            style={{ colorScheme: 'dark' }}
+                            className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-champagne placeholder:text-gray-500 placeholder:font-medium"
                         />
-                        {!depart && (
-                            <span className="absolute left-10 top-1/2 -translate-y-1/2 text-white/55 text-sm pointer-events-none">
-                                {content.depart}
-                            </span>
-                        )}
                     </div>
 
-                    {/* Divider */}
-                    <div className="hidden lg:block w-px bg-white/15 my-1" />
-
                     {/* Guests */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden">
                         <GuestSelector value={guests} onChange={setGuests} lang={lang} />
                     </div>
 
                     {/* Search button */}
                     <button
                         type="submit"
-                        className="bg-champagne hover:bg-champagne/90 text-white px-8 h-12 font-semibold tracking-[0.15em] text-[11px] uppercase transition-colors flex-shrink-0 flex items-center gap-2 justify-center"
+                        className="bg-[#DDA15E] hover:bg-[#c99050] text-white px-8 h-14 font-semibold text-sm rounded-sm transition-colors flex-shrink-0 flex items-center justify-center min-w-[140px]"
                     >
                         {content.search}
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
                     </button>
                 </form>
 
-                {/* Quick links */}
-                <div className="flex flex-wrap justify-center gap-3 mt-6">
-                    {DESTINATIONS.map((d) => (
-                        <button
-                            key={d.slug}
-                            type="button"
-                            onClick={() => {
-                                setDestination(d.slug);
-                                router.push(`/annonces?destination=${d.slug}`);
-                            }}
-                            className="text-[10px] font-medium tracking-[0.15em] uppercase text-white/50 hover:text-champagne transition-colors px-3 py-1 border border-white/10 hover:border-champagne/30"
-                        >
-                            {lang === 'en' ? d.labelEn : d.labelFr}
-                        </button>
-                    ))}
-                </div>
+
             </div>
         </section>
     );

@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!property) return { title: 'Propriété introuvable' };
 
     return {
-        title: `${property.title} | ${formatPrice(property.price)}`,
+        title: `${property.title} | Price on demand`,
         description: property.description.slice(0, 160) + '…',
         openGraph: {
             title: property.title,
@@ -279,8 +279,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                         <div className="sticky top-24 flex flex-col gap-6">
                             {/* Price card */}
                             <div className="border border-gray-100 p-8 bg-white shadow-sm">
-                                <p className="font-serif text-3xl text-champagne mb-1">{formatPrice(property.price)}</p>
-                                <p className="text-xs text-luxury-muted mb-6">{formatPricePerSqm(property.price, property.surface)}</p>
+                                <p className="font-serif text-3xl text-champagne mb-6">Price on demand</p>
                                 <Link href={`/contact?ref=${property.reference}`} className="btn-primary w-full justify-center mb-3">
                                     Demander une Visite
                                 </Link>

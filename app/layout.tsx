@@ -42,6 +42,8 @@ export const metadata: Metadata = {
     robots: { index: true, follow: true },
 };
 
+import WhatsAppFloatingButton from '@/components/WhatsAppFloatingButton';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="fr" className={`${playfair.variable} ${inter.variable} ${cormorant.variable}`}>
@@ -50,10 +52,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
             </head>
-            <body className="font-sans antialiased bg-white text-luxury-black">
+            <body className="font-sans antialiased bg-white text-luxury-black flex min-h-screen flex-col">
                 <Providers>
-                    <CookieConsent />
                     {children}
+                    <CookieConsent />
+                    <WhatsAppFloatingButton />
                 </Providers>
             </body>
         </html>

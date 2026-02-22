@@ -2,8 +2,8 @@ export const fr = {
     // ── Navigation ────────────────────────────────────────────
     nav: {
         listings: 'Annonces',
-        destinations: 'Destinations',
-        services: 'Services',
+        home: 'Accueil',
+        faq: 'FAQ',
         about: 'À Propos',
         contact: 'Contact',
         contactUs: 'Nous Contacter',
@@ -88,9 +88,10 @@ export const fr = {
         eyebrow: 'Témoignages',
         title: 'Ils Nous Font Confiance',
         items: [
-            { name: 'Alexandre D.', title: 'Acquéreur, Paris 8e', text: "Un accompagnement d'une qualité rare. L'équipe de Sotheby Realty a trouvé notre appartement de rêve en moins de 3 semaines. Discrets, professionnels, excellents négociateurs." },
-            { name: 'Isabelle R.', title: 'Vendeur, Cap-Ferrat', text: "Ma villa a été vendue au-dessus du prix estimé, grâce à leur réseau international d'acheteurs qualifiés. Je recommande sans réserve." },
-            { name: 'Thomas & Sarah M.', title: 'Acquéreurs, Courchevel', text: "Notre chalet de rêve à Courchevel 1850 trouvé via leur base off-market exclusive. Une expérience premium de bout en bout." },
+            { name: 'Kathline Andrews', title: '', text: "Un sanctuaire caché où le temps ralentit et chaque détail respire le luxe. La porte d'entrée parfaite pour une évasion luxueuse." },
+            { name: 'Aisha Khan', title: '', text: "L'emplacement était paisible et privé. Se réveiller avec la vue sur l'océan chaque matin était inoubliable." },
+            { name: 'Michel Barabel', title: '', text: "Magnifiquement décoré et très propre. Bruit mineur d'une construction voisine, mais dans l'ensemble une expérience fantastique." },
+            { name: 'Maud Xavier', title: '', text: "Belle propriété et très calme, parfaite pour une retraite relaxante. Le seul problème mineur était le parking, mais sinon impeccable." },
         ],
     },
     // ── CTA Banner ────────────────────────────────────────────
@@ -108,42 +109,11 @@ export const fr = {
         guarantee: 'Garantie Financière : 110\u202f000 € — AXA Assurances · Responsabilité Civile Professionnelle',
         cols: [
             {
-                heading: 'Annonces',
+                heading: '',
                 links: [
-                    { label: 'Villas de luxe', href: '/annonces?type=VILLA' },
-                    { label: 'Appartements prestige', href: '/annonces?type=APPARTEMENT' },
-                    { label: 'Chalets & montagne', href: '/annonces?type=CHALET' },
-                    { label: 'Domaines & châteaux', href: '/annonces?type=DOMAINE' },
-                    { label: 'Penthouses', href: '/annonces?type=PENTHOUSE' },
-                ],
-            },
-            {
-                heading: 'Destinations',
-                links: [
-                    { label: 'Paris & Île-de-France', href: '/destinations/paris' },
-                    { label: "Côte d'Azur", href: '/destinations/cote-dazur' },
-                    { label: 'Alpes & Savoie', href: '/destinations/alpes' },
-                    { label: 'Bordeaux', href: '/destinations/bordeaux' },
-                    { label: 'Provence', href: '/destinations/provence' },
-                ],
-            },
-            {
-                heading: 'Agence',
-                links: [
-                    { label: 'À Propos', href: '/a-propos' },
-                    { label: 'Services', href: '/services' },
-                    { label: "L'Équipe", href: '/equipe' },
-                    { label: 'Blog & Magazine', href: '/blog' },
-                    { label: 'Contact', href: '/contact' },
-                ],
-            },
-            {
-                heading: 'Juridique',
-                links: [
-                    { label: 'Mentions légales', href: '/mentions-legales' },
-                    { label: 'Confidentialité', href: '/politique-confidentialite' },
-                    { label: 'CGU', href: '/cgu' },
-                    { label: 'Cookies', href: '/cookies' },
+                    { label: 'Conditions Générales', href: '/cgu' },
+                    { label: 'Politique de Confidentialité', href: '/politique-confidentialite' },
+                    { label: 'Mentions Légales', href: '/mentions-legales' },
                 ],
             },
         ],

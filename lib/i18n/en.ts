@@ -3,11 +3,11 @@ import type { Translations } from './fr';
 export const en: Translations = {
     // ── Navigation ────────────────────────────────────────────
     nav: {
-        listings: 'Listings',
-        destinations: 'Destinations',
-        services: 'Services',
-        about: 'About',
-        contact: 'Contact',
+        listings: 'Listing',
+        home: 'Home',
+        faq: 'Faq',
+        about: 'About Us',
+        contact: 'Contact Us',
         contactUs: 'Contact Us',
         login: 'Sign In',
         register: 'Sign Up',
@@ -90,9 +90,10 @@ export const en: Translations = {
         eyebrow: 'Testimonials',
         title: 'They Trust Us',
         items: [
-            { name: 'Alexandre D.', title: 'Buyer, Paris 8th', text: "Remarkably high-quality service. The Sotheby Realty team found our dream apartment in under 3 weeks. Discreet, professional, outstanding negotiators." },
-            { name: 'Isabelle R.', title: 'Seller, Cap-Ferrat', text: "My villa sold above the estimated price, thanks to their international network of qualified buyers. Unreservedly recommended." },
-            { name: 'Thomas & Sarah M.', title: 'Buyers, Courchevel', text: "Our dream chalet in Courchevel 1850 found through their exclusive off-market database. A premium experience from start to finish." },
+            { name: 'Kathline Andrews', title: '', text: "A hidden sanctuary where time slows down and every detail whispers luxury. The perfect gateway to a luxurious escape." },
+            { name: 'Aisha Khan', title: '', text: "The location was peaceful and private. Waking up to the ocean view every morning was unforgettable." },
+            { name: 'Michel Barabel', title: '', text: "Beautifully decorated and very clean. Minor noise from nearby construction, but overall a fantastic experience." },
+            { name: 'Maud Xavier', title: '', text: "Beautiful property and very quiet, perfect for a relaxing retreat. Only minor issue was the parking, but otherwise flawless." },
         ],
     },
     // ── CTA Banner ────────────────────────────────────────────
@@ -110,42 +111,11 @@ export const en: Translations = {
         guarantee: 'Financial Guarantee: €110,000 — AXA Insurance · Professional Liability',
         cols: [
             {
-                heading: 'Listings',
+                heading: '',
                 links: [
-                    { label: 'Luxury Villas', href: '/annonces?type=VILLA' },
-                    { label: 'Prestige Apartments', href: '/annonces?type=APPARTEMENT' },
-                    { label: 'Chalets & Mountain', href: '/annonces?type=CHALET' },
-                    { label: 'Estates & Châteaux', href: '/annonces?type=DOMAINE' },
-                    { label: 'Penthouses', href: '/annonces?type=PENTHOUSE' },
-                ],
-            },
-            {
-                heading: 'Destinations',
-                links: [
-                    { label: 'Paris & Île-de-France', href: '/destinations/paris' },
-                    { label: 'French Riviera', href: '/destinations/cote-dazur' },
-                    { label: 'Alps & Savoie', href: '/destinations/alpes' },
-                    { label: 'Bordeaux', href: '/destinations/bordeaux' },
-                    { label: 'Provence', href: '/destinations/provence' },
-                ],
-            },
-            {
-                heading: 'Agency',
-                links: [
-                    { label: 'About Us', href: '/a-propos' },
-                    { label: 'Services', href: '/services' },
-                    { label: 'Our Team', href: '/equipe' },
-                    { label: 'Blog & Magazine', href: '/blog' },
-                    { label: 'Contact', href: '/contact' },
-                ],
-            },
-            {
-                heading: 'Legal',
-                links: [
-                    { label: 'Legal Notice', href: '/mentions-legales' },
+                    { label: 'Terms & Conditions', href: '/cgu' },
                     { label: 'Privacy Policy', href: '/politique-confidentialite' },
-                    { label: 'Terms of Use', href: '/cgu' },
-                    { label: 'Cookies', href: '/cookies' },
+                    { label: 'Legal Notice', href: '/mentions-legales' },
                 ],
             },
         ],

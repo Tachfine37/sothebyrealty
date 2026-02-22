@@ -25,31 +25,11 @@ export default function Header() {
     const isTransparent = isHome && !scrolled;
 
     const navItems = [
-        {
-            label: t.nav.listings,
-            href: '/annonces',
-            children: [
-                { label: t.nav.listingTypes.villas, href: '/annonces?type=VILLA' },
-                { label: t.nav.listingTypes.apartments, href: '/annonces?type=APPARTEMENT' },
-                { label: t.nav.listingTypes.chalets, href: '/annonces?type=CHALET' },
-                { label: t.nav.listingTypes.domains, href: '/annonces?type=DOMAINE' },
-                { label: t.nav.listingTypes.penthouses, href: '/annonces?type=PENTHOUSE' },
-            ],
-        },
-        {
-            label: t.nav.destinations,
-            href: '/destinations',
-            children: [
-                { label: t.nav.destinationLinks.paris, href: '/destinations/paris' },
-                { label: t.nav.destinationLinks.cotedazur, href: '/destinations/cote-dazur' },
-                { label: t.nav.destinationLinks.alpes, href: '/destinations/alpes' },
-                { label: t.nav.destinationLinks.bordeaux, href: '/destinations/bordeaux' },
-                { label: t.nav.destinationLinks.provence, href: '/destinations/provence' },
-            ],
-        },
-        { label: t.nav.services, href: '/services' },
+        { label: t.nav.home, href: '/' },
+        { label: t.nav.listings, href: '/annonces' },
+        { label: t.nav.faq, href: '/faq' },
         { label: t.nav.about, href: '/a-propos' },
-        { label: t.nav.contact, href: '/contact' },
+        { label: t.nav.contactUs, href: '/contact' },
     ];
 
     return (
@@ -89,27 +69,7 @@ export default function Header() {
                                         )}
                                     >
                                         {item.label}
-                                        {item.children && (
-                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                                <polyline points="6 9 12 15 18 9" />
-                                            </svg>
-                                        )}
                                     </Link>
-
-                                    {/* Dropdown */}
-                                    {item.children && openDropdown === item.label && (
-                                        <div className="absolute top-full left-0 mt-2 w-56 bg-[#002247] border border-white/20 shadow-xl py-2 z-50">
-                                            {item.children.map((child) => (
-                                                <Link
-                                                    key={child.href}
-                                                    href={child.href}
-                                                    className="block px-5 py-2.5 text-[11px] font-medium tracking-wider text-white/70 hover:text-white hover:bg-white/10 transition-colors duration-150"
-                                                >
-                                                    {child.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
                             ))}
                         </nav>
