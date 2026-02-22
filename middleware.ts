@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
-import { createServerClient } from '@supabase/ssr';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -14,7 +13,7 @@ export async function middleware(request: NextRequest) {
         // Refresh Supabase session on every request
         const { supabaseResponse, user } = await updateSession(request);
 
-        // ─── Protect /admin routes ─────────────────────────────────────────────
+        // ─── Protect /admin routes (Basic auth check) ──────────────────────────
         if (pathname.startsWith('/admin')) {
             // Not authenticated → redirect to login
             if (!user) {
@@ -22,32 +21,8 @@ export async function middleware(request: NextRequest) {
                 loginUrl.searchParams.set('next', pathname);
                 return NextResponse.redirect(loginUrl);
             }
-
-            // Authenticated but need to check admin role
-            const supabase = createServerClient(
-                process.env.NEXT_PUBLIC_SUPABASE_URL!,
-                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-                {
-                    cookies: {
-                        getAll() { return request.cookies.getAll(); },
-                        setAll(cookiesToSet) {
-                            cookiesToSet.forEach(({ name, value, options }) =>
-                                supabaseResponse.cookies.set(name, value, options)
-                            );
-                        },
-                    },
-                }
-            );
-
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('role')
-                .eq('id', user.id)
-                .single();
-
-            if (!profile || profile.role !== 'admin') {
-                return NextResponse.redirect(new URL('/?error=unauthorized', request.url));
-            }
+            // Note: Admin role check is handled either in layout.tsx or at route level
+            // because querying the database in Middleware (Edge Runtime) can cause crashes.
         }
 
         // ─── Protect /login: redirect authenticated users away ────────────────
@@ -66,7 +41,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        '/((?!_next/static|_next/image|favicon.ico|uploads|api|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+        '/((?!_next/static|_next/image|favicon.ico|uploads|api|auth|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 };
-
