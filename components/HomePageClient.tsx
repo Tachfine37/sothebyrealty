@@ -133,19 +133,7 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                 </div>
             </section>
 
-            {/* ── CTA BANNER ───────────────────────────────── */}
-            <section className="py-24 bg-luxury-black relative overflow-hidden" aria-label="CTA">
-                <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, #C9A84C 0%, transparent 70%)' }} aria-hidden="true" />
-                <div className="relative max-w-3xl mx-auto text-center px-6">
-                    <span className="section-label">{t.ctaBanner.eyebrow}</span>
-                    <h2 className="section-title text-white mb-6 whitespace-pre-line">{t.ctaBanner.title}</h2>
-                    <p className="text-sm text-white/50 mb-10 leading-relaxed">{t.ctaBanner.subtitle}</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact" className="btn-primary">{t.ctaBanner.cta1}</Link>
-                        <Link href="/annonces" className="btn-outline-white">{t.ctaBanner.cta2}</Link>
-                    </div>
-                </div>
-            </section>
+
         </>
     );
 }
