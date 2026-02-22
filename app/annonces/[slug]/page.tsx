@@ -64,7 +64,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         name: property.title,
         url: `https://sothebyrealty.fr/annonces/${property.slug}`,
         description: property.description,
-        image: property.images.map((img) => img.url),
+        image: property.images.map((img: any) => img.url),
         offers: {
             '@type': 'Offer',
             price: property.price,
@@ -97,171 +97,130 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             <Header />
 
-            {/* Gallery */}
-            <section className="pt-20" aria-label="Galerie photo">
-                {/* Main hero image */}
-                <div className="relative h-[60vh] min-h-[400px] overflow-hidden">
-                    {mainImage ? (
-                        <Image
-                            src={mainImage.url}
-                            alt={mainImage.alt || property.title}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    ) : (
-                        <div className="w-full h-full bg-luxury-cream flex items-center justify-center">
-                            <span className="text-luxury-muted text-sm">Aucune photo disponible</span>
-                        </div>
-                    )}
-                    {/* Photo count badge */}
-                    {property.images.length > 1 && (
-                        <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs font-semibold px-3 py-1.5 flex items-center gap-1.5 backdrop-blur-sm">
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-                            </svg>
-                            {property.images.length} photos
-                        </div>
-                    )}
-                </div>
-
-                {/* Thumbnail strip for additional images */}
-                {property.images.length > 1 && (
-                    <div className="bg-luxury-black">
-                        <div className="max-w-8xl mx-auto px-6 lg:px-12">
-                            <div className="flex gap-1 overflow-x-auto scrollbar-hide py-1">
-                                {property.images.map((img, idx) => (
-                                    <a
-                                        key={img.id}
-                                        href={img.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={`relative flex-shrink-0 w-24 h-16 overflow-hidden transition-opacity ${idx === 0 ? 'ring-1 ring-champagne opacity-100' : 'opacity-60 hover:opacity-100'
-                                            }`}
-                                        title={`Photo ${idx + 1}`}
-                                    >
-                                        <Image
-                                            src={img.url}
-                                            alt={img.alt || `Photo ${idx + 1}`}
-                                            fill
-                                            className="object-cover"
-                                            sizes="96px"
-                                        />
-                                    </a>
-                                ))}
-                            </div>
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-28 pb-12">
+                {/* Title and Actions Row */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+                    <div>
+                        <h1 className="font-serif text-4xl text-luxury-black mb-2">{property.title}</h1>
+                        <div className="flex items-center gap-4 text-sm text-luxury-muted">
+                            <span className="flex items-center gap-1">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {property.city}
+                            </span>
+                            <span>•</span>
+                            <span>{property.type}</span>
                         </div>
                     </div>
-                )}
-            </section>
+                    <div className="flex gap-4">
+                        <button className="flex items-center gap-2 text-sm font-medium text-luxury-black hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            Save
+                        </button>
+                        <button className="flex items-center gap-2 text-sm font-medium text-luxury-black hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                            Print
+                        </button>
+                    </div>
+                </div>
 
+                {/* Loziara-style Grid Gallery */}
+                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[50vh] min-h-[400px] mb-12 rounded-2xl overflow-hidden relative">
+                    {/* Main large image */}
+                    <div className="md:col-span-2 md:row-span-2 relative h-full">
+                        {mainImage ? (
+                            <Image src={mainImage.url} alt={mainImage.alt || property.title} fill className="object-cover hover:scale-105 transition-transform duration-500" priority sizes="(max-width: 768px) 100vw, 50vw" />
+                        ) : (
+                            <div className="w-full h-full bg-gray-100" />
+                        )}
+                    </div>
+                    {/* Secondary images (up to 4) */}
+                    {property.images.slice(1, 5).map((img: any, idx: number) => (
+                        <div key={img.id} className="relative hidden md:block h-full overflow-hidden">
+                            <Image src={img.url} alt={img.alt || ''} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="25vw" />
+                        </div>
+                    ))}
 
-            <div className="max-w-8xl mx-auto px-6 lg:px-12 py-12">
-                {/* Breadcrumb */}
-                <nav aria-label="Fil d'Ariane" className="flex items-center gap-2 text-[10px] font-medium tracking-wider uppercase text-luxury-muted mb-8">
-                    <Link href="/" className="hover:text-champagne transition-colors">Accueil</Link>
-                    <span>›</span>
-                    <Link href="/annonces" className="hover:text-champagne transition-colors">Annonces</Link>
-                    <span>›</span>
-                    <Link href={`/destinations/${property.destination}`} className="hover:text-champagne transition-colors">
-                        {DESTINATION_LABELS[property.destination] ?? property.destination}
-                    </Link>
-                    <span>›</span>
-                    <span className="text-champagne truncate max-w-[200px]">{property.title}</span>
-                </nav>
+                    {/* Fill empty spots if less than 5 images */}
+                    {Array.from({ length: Math.max(0, 4 - property.images.slice(1).length) }).map((_, i) => (
+                        <div key={`empty-${i}`} className="bg-gray-100 hidden md:block h-full"></div>
+                    ))}
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    {/* Main Content */}
-                    <main className="lg:col-span-2">
-                        <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
-                            <div>
-                                <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-luxury-muted mb-1">
-                                    {property.reference}
-                                </p>
+                    <button className="absolute bottom-6 right-6 bg-white px-4 py-2 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.15)] text-sm font-semibold flex items-center gap-2 hover:bg-gray-50 text-luxury-black transition-colors z-10">
+                        <svg className="w-4 h-4 border-[1.5px] border-black rounded-[2px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="6" cy="6" r="1" /><circle cx="12" cy="6" r="1" /><circle cx="18" cy="6" r="1" /><circle cx="6" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="18" cy="12" r="1" /><circle cx="6" cy="18" r="1" /><circle cx="12" cy="18" r="1" /><circle cx="18" cy="18" r="1" /></svg>
+                        Show all photos
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
+                    {/* Main Info Column */}
+                    <div className="lg:col-span-2">
+                        {/* About / Description */}
+                        <section className="mb-12 pb-12 border-b border-gray-200">
+                            <h2 className="text-2xl font-serif text-luxury-black mb-6">About this listing</h2>
+                            <div className="text-gray-600 leading-relaxed whitespace-pre-line text-[15px]">
+                                {property.description}
                             </div>
-                        </div>
+                        </section>
 
-                        <h1 className="font-serif text-3xl md:text-4xl text-luxury-black mb-3">{property.title}</h1>
-                        <p className="flex items-center gap-2 text-sm text-luxury-muted mb-8">
-                            <svg className="w-4 h-4 text-champagne" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-                            </svg>
-                            {property.address ?? property.city}
-                        </p>
+                        {/* Details */}
+                        <section className="mb-12 pb-12 border-b border-gray-200">
+                            <h3 className="text-xl font-bold text-luxury-black mb-6">Details</h3>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-[15px] text-gray-700">
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> ID: <span className="font-medium ml-2">{property.reference}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Guests: <span className="font-medium ml-2">{property.bedrooms * 2}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Bedrooms: <span className="font-medium ml-2">{property.bedrooms}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Beds: <span className="font-medium ml-2">{property.bedrooms}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Bathrooms: <span className="font-medium ml-2">{property.bathrooms}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Type: <span className="font-medium ml-2">{property.type}</span></li>
+                            </ul>
+                        </section>
 
-                        {/* Meta bar */}
-                        <div className="grid grid-cols-3 md:grid-cols-5 gap-4 border-y border-gray-100 py-6 mb-10">
-                            {[
-                                { label: 'Surface', value: `${property.surface} m²` },
-                                { label: 'Chambres', value: property.bedrooms },
-                                { label: 'Salles de bain', value: property.bathrooms },
-                                { label: 'Pièces', value: property.rooms },
-                                { label: 'DPE', value: property.dpe ?? 'N/A' },
-                            ].map((m) => (
-                                <div key={m.label} className="text-center">
-                                    <p className="font-serif text-xl text-luxury-black mb-1">{m.value}</p>
-                                    <p className="text-[10px] font-semibold tracking-wider uppercase text-luxury-muted">{m.label}</p>
-                                </div>
-                            ))}
-                        </div>
+                        {/* Prices */}
+                        <section className="mb-12 pb-12 border-b border-gray-200">
+                            <h3 className="text-xl font-bold text-luxury-black mb-6">Prices</h3>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-[15px] text-gray-700">
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> night: <span className="font-medium ml-2">Price on demand</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Allow additional guests: <span className="font-medium ml-2">No</span></li>
+                            </ul>
+                        </section>
 
-                        {/* Description */}
-                        <div className="mb-10">
-                            <h2 className="font-serif text-2xl mb-6">Description du Bien</h2>
-                            <div className="prose prose-sm max-w-none text-luxury-muted leading-relaxed">
-                                {property.description.split('\n\n').map((para, i) => (
-                                    <p key={i} className="mb-4">{para}</p>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Amenities */}
+                        {/* Features */}
                         {parseAmenities(property.amenities).length > 0 && (
-                            <div className="mb-10">
-                                <h2 className="font-serif text-2xl mb-6">Prestations & Équipements</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <section className="mb-12 pb-12 border-b border-gray-200">
+                                <h3 className="text-xl font-bold text-luxury-black mb-6">Features</h3>
+                                <p className="text-[13px] font-bold text-gray-500 uppercase tracking-wider mb-4">Amenities</p>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 text-[15px] text-gray-700">
                                     {parseAmenities(property.amenities).map((amenity: string) => (
-                                        <div key={amenity} className="flex items-center gap-3">
-                                            <svg className="w-4 h-4 text-champagne flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                                <polyline points="20 6 9 17 4 12" />
+                                        <li key={amenity} className="flex items-center gap-3">
+                                            <svg className="w-[18px] h-[18px] text-gray-400 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
                                             </svg>
-                                            <span className="text-sm text-luxury-muted">{amenity}</span>
-                                        </div>
+                                            {amenity}
+                                        </li>
                                     ))}
-                                </div>
-                            </div>
+                                </ul>
+                            </section>
                         )}
 
-                        {/* Details table */}
-                        <div className="mb-10">
-                            <h2 className="font-serif text-2xl mb-6">Caractéristiques</h2>
-                            <table className="w-full text-sm">
-                                <tbody className="divide-y divide-gray-100">
-                                    {[
-                                        { label: 'Type de bien', value: property.type },
-                                        { label: 'Surface habitable', value: `${property.surface} m²` },
-                                        { label: 'Pièces', value: property.rooms },
-                                        { label: 'Chambres', value: property.bedrooms },
-                                        { label: 'Salles de bains', value: property.bathrooms },
-                                        { label: 'Ville / Secteur', value: `${property.city}` },
-                                        ...(property.dpe ? [{ label: 'DPE', value: property.dpe }] : []),
-                                        ...(property.charges ? [{ label: 'Charges mensuelles', value: `${property.charges} €` }] : []),
-                                        { label: 'Référence', value: property.reference },
-                                    ].map(({ label, value }) => (
-                                        <tr key={label}>
-                                            <td className="py-3 text-luxury-muted w-1/2">{label}</td>
-                                            <td className="py-3 font-semibold text-luxury-black">{String(value)}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        {/* Terms & rules */}
+                        <section className="mb-12 pb-12 border-b border-gray-200">
+                            <h3 className="text-xl font-bold text-luxury-black mb-6">Terms & rules</h3>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-[15px] text-gray-700">
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Smoking allowed: <span className="font-medium ml-2">No</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Pets allowed: <span className="font-medium ml-2">Yes</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Party allowed: <span className="font-medium ml-2">No</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Children allowed: <span className="font-medium ml-2">Yes</span></li>
+                            </ul>
+                        </section>
 
                         {/* Map */}
                         {property.latitude && property.longitude && (
-                            <div className="mb-10">
-                                <h2 className="font-serif text-2xl mb-6">Localisation</h2>
-                                <div className="h-80 bg-luxury-cream border border-gray-100 overflow-hidden">
+                            <section className="mb-12">
+                                <h3 className="text-xl font-bold text-luxury-black mb-6">Location</h3>
+                                <div className="h-[400px] w-full rounded-2xl overflow-hidden bg-gray-100">
                                     <iframe
                                         src={`https://www.openstreetmap.org/export/embed.html?bbox=${property.longitude - 0.01},${property.latitude - 0.008},${property.longitude + 0.01},${property.latitude + 0.008}&layer=mapnik&marker=${property.latitude},${property.longitude}`}
                                         className="w-full h-full border-0"
@@ -269,81 +228,82 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                                         loading="lazy"
                                     />
                                 </div>
-                                <p className="text-xs text-luxury-muted mt-2">Adresse exacte communiquée lors de la prise de contact.</p>
-                            </div>
+                            </section>
                         )}
-                    </main>
 
-                    {/* Sticky Sidebar */}
-                    <aside className="lg:col-span-1">
-                        <div className="sticky top-24 flex flex-col gap-6">
-                            {/* Price card */}
-                            <div className="border border-gray-100 p-8 bg-white shadow-sm">
-                                <p className="font-serif text-3xl text-champagne mb-6">Price on demand</p>
-                                <Link href={`/contact?ref=${property.reference}`} className="btn-primary w-full justify-center mb-3">
-                                    Demander une Visite
-                                </Link>
-                                <a href="tel:+33144778899" className="btn-outline w-full justify-center flex items-center gap-2 text-xs">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.22 2 2 0 0 1 3.55 1h3a2 2 0 0 1 2 1.72" />
-                                    </svg>
-                                    +33 1 44 77 88 99
-                                </a>
-                            </div>
+                    </div>
 
-                            {/* Agent card */}
-                            {property.agent && (
-                                <div className="border border-gray-100 p-6">
-                                    <div className="flex gap-4 mb-4">
-                                        <div className="relative w-14 h-14 rounded-full overflow-hidden bg-luxury-cream flex-shrink-0">
-                                            {property.agent.photo ? (
-                                                <Image src={property.agent.photo} alt={property.agent.name} fill className="object-cover" />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-luxury-muted font-serif text-xl">
-                                                    {property.agent.name.charAt(0)}
-                                                </div>
-                                            )}
+                    {/* Sidebar: Availability & Contact */}
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-28 space-y-8">
+                            {/* Booking / Price Widget */}
+                            <div className="border border-gray-200 rounded-2xl p-6 shadow-[0_6px_24px_rgba(0,0,0,0.06)] bg-white">
+                                <div className="mb-6">
+                                    <span className="text-2xl font-bold text-luxury-black">Price on demand</span>
+                                </div>
+
+                                <form action="/api/contact" method="post" className="flex flex-col gap-3">
+                                    <div className="grid grid-cols-2 gap-0 border border-gray-300 rounded-lg overflow-hidden mb-0">
+                                        <div className="p-3 border-r border-gray-300 bg-white">
+                                            <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Check-in</div>
+                                            <input type="date" className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer" />
                                         </div>
-                                        <div>
-                                            <p className="font-semibold text-sm text-luxury-black">{property.agent.name}</p>
-                                            <p className="text-xs text-luxury-muted">{property.agent.title}</p>
-                                            <p className="text-xs text-champagne mt-0.5">{property.agent.phone}</p>
+                                        <div className="p-3 bg-white">
+                                            <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Check-out</div>
+                                            <input type="date" className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer" />
                                         </div>
                                     </div>
-                                    {/* Contact mini-form */}
-                                    <form action="/api/contact" method="post" className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100">
-                                        <input type="hidden" name="propertyRef" value={property.reference} />
-                                        <input type="text" name="name" className="form-input text-xs py-2" placeholder="Votre nom" required />
-                                        <input type="email" name="email" className="form-input text-xs py-2" placeholder="Email" required />
-                                        <input type="tel" name="phone" className="form-input text-xs py-2" placeholder="Téléphone" />
-                                        <textarea name="message" className="form-input form-textarea text-xs py-2 min-h-[80px]"
-                                            defaultValue={`Bonjour, je souhaite obtenir plus d'informations concernant "${property.title}" (réf. ${property.reference}).`} />
-                                        <button type="submit" className="btn-primary text-[10px] justify-center">Envoyer</button>
-                                    </form>
+                                    <div className="border border-gray-300 rounded-lg p-3 bg-white mb-2">
+                                        <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Guests</div>
+                                        <select className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer appearance-none bg-no-repeat bg-[position:right_center] bg-[image:url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] pr-6">
+                                            <option>1 guest</option>
+                                            <option>2 guests</option>
+                                            <option>3 guests</option>
+                                            <option>4+ guests</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" name="propertyRef" value={property.reference} />
+                                    <button type="button" className="w-full bg-[#E31C5F] hover:bg-[#D01654] text-white font-bold text-[15px] py-3.5 rounded-lg transition-colors mt-2">
+                                        Check availability
+                                    </button>
+                                </form>
+                            </div>
+
+                            {/* Agent Widget (Loziara style 'Hosted by') */}
+                            {property.agent && (
+                                <div className="border border-gray-200 rounded-2xl p-6 bg-white flex flex-col items-center text-center shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+                                    <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 mb-4 ring-1 ring-gray-200">
+                                        {property.agent.photo ? (
+                                            <Image src={property.agent.photo} alt={property.agent.name} fill className="object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-400 font-serif text-3xl">
+                                                {property.agent.name.charAt(0)}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <h3 className="font-bold text-xl text-luxury-black mb-1">Hosted by {property.agent.name}</h3>
+                                    <p className="text-gray-500 text-[15px] mb-6">{property.agent.title}</p>
+                                    <a href={`tel:${property.agent.phone.replace(/\s+/g, '')}`} className="w-full border border-black hover:bg-gray-50 text-black font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                        <svg className="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                                        Contact Host
+                                    </a>
                                 </div>
                             )}
                         </div>
-                    </aside>
+                    </div>
                 </div>
 
-                {/* Similar properties */}
+                {/* Similar Properties */}
                 {similarProperties.length > 0 && (
-                    <section className="mt-20 pt-12 border-t border-gray-100" aria-labelledby="similar-heading">
-                        <div className="flex justify-between items-end mb-10">
-                            <div>
-                                <span className="section-label">Vous Pourriez Aimer</span>
-                                <h2 className="section-title" id="similar-heading">Propriétés Similaires</h2>
-                            </div>
-                            <Link href={`/destinations/${property.destination}`} className="btn-outline text-xs">
-                                Voir la destination
-                            </Link>
-                        </div>
+                    <div className="mt-16 pt-16 border-t border-gray-200">
+                        <h2 className="text-[26px] font-bold text-luxury-black mb-8">Compare listings</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {similarProperties.map((p) => (
+                            {similarProperties.map((p: any) => (
                                 <PropertyCard key={p.id} property={p} />
                             ))}
                         </div>
-                    </section>
+                    </div>
                 )}
             </div>
             <Footer />
