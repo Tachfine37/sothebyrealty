@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Sotheby's International Realty brand palette */
+    --navy: #002247;
+    --navy-mid: #003366;
+    --champagne: #C6A96B;
+    --champagne-light: #D6BD8A;
+    --champagne-dark: #B89555;
+    --black: #002247;
+    --white: #FFFFFF;
+}
+
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+        font-family: var(--font-inter, 'Inter', system-ui, sans-serif);
+        color: #002247;
+        background: #FFFFFF;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-playfair, 'Playfair Display', Georgia, serif);
+        font-weight: 400;
+        line-height: 1.15;
+    }
+}
+
+@layer components {
+
+    /* ─── BUTTONS ─────────────────────────────────── */
+    .btn-primary {
+        @apply inline-flex items-center gap-2 bg-navy text-white text-xs font-semibold tracking-widest uppercase px-8 py-4 hover:bg-navy-mid transition-colors duration-300;
+    }
+
+    .btn-outline {
+        @apply inline-flex items-center gap-2 border border-navy text-navy text-xs font-semibold tracking-widest uppercase px-8 py-4 hover:bg-navy hover:text-white transition-colors duration-300;
+    }
+
+    .btn-outline-white {
+        @apply inline-flex items-center gap-2 border border-white text-white text-xs font-semibold tracking-widest uppercase px-8 py-4 hover:bg-white hover:text-navy transition-colors duration-300;
+    }
+
+    .btn-sm {
+        @apply px-5 py-3 text-[10px];
+    }
+
+    /* ─── SECTION LABELS ──────────────────────────── */
+    .section-label {
+        @apply inline-block text-xs font-semibold tracking-[0.25em] uppercase text-champagne mb-3;
+    }
+
+    .section-title {
+        @apply font-serif text-3xl md:text-4xl lg:text-5xl font-normal text-luxury-black leading-tight;
+    }
+
+    .divider-champagne {
+        @apply w-12 h-px bg-champagne my-6;
+    }
+
+    .divider-champagne-center {
+        @apply mx-auto;
+    }
+
+    /* ─── FORMS ───────────────────────────────────── */
+    .form-input {
+        @apply w-full border border-gray-200 px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:border-champagne transition-colors duration-200 bg-white;
+    }
+
+    .form-label {
+        @apply block text-xs font-semibold tracking-wider uppercase text-luxury-black mb-2;
+    }
+
+    .form-textarea {
+        @apply resize-none min-h-[140px];
+    }
+
+    .form-select {
+        @apply w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-champagne transition-colors duration-200 bg-white appearance-none cursor-pointer;
+    }
+
+    /* ─── ADMIN SIDEBAR ───────────────────────────── */
+    .admin-nav-link {
+        @apply flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200;
+    }
+
+    .admin-nav-link-active {
+        @apply text-white bg-champagne/10 border-l-2 border-champagne;
+    }
+
+    .admin-card {
+        @apply bg-white border border-gray-100 rounded-xl p-6 shadow-sm;
+    }
+
+    /* ─── PROPERTY CARD ───────────────────────────── */
+    .property-card {
+        @apply bg-white overflow-hidden border border-gray-100 hover:border-champagne/30 hover:shadow-xl transition-all duration-500;
+    }
+
+    .property-card-img {
+        @apply w-full h-64 object-cover transition-transform duration-700 group-hover:scale-105;
+    }
+
+    /* ─── BADGES ──────────────────────────────────── */
+    .badge-champagne {
+        @apply inline-block text-xs font-bold tracking-widest uppercase bg-champagne text-white px-3 py-1;
+    }
+}
+
+@layer utilities {
+    .text-champagne {
+        color: var(--champagne);
+    }
+
+    .bg-champagne {
+        background-color: var(--champagne);
+    }
+
+    .border-champagne {
+        border-color: var(--champagne);
+    }
+
+    .text-navy {
+        color: var(--navy);
+    }
+
+    .bg-navy {
+        background-color: var(--navy);
+    }
+
+    .bg-navy-mid {
+        background-color: var(--navy-mid);
+    }
+
+    .border-navy {
+        border-color: var(--navy);
+    }
+
+    .hover\:bg-navy:hover {
+        background-color: var(--navy);
+    }
+
+    .hover\:bg-navy-mid:hover {
+        background-color: var(--navy-mid);
+    }
+
+    .hover\:text-navy:hover {
+        color: var(--navy);
+    }
+
+    .scrollbar-hidden {
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hidden::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-tap-highlight {
+        -webkit-tap-highlight-color: transparent;
+    }
+}

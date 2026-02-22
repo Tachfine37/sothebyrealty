@@ -1,0 +1,86 @@
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server';
+import LogoutButton from '@/components/LogoutButton';
+
+export const metadata: Metadata = { title: 'Admin | Sotheby Realty France' };
+
+const sidebarLinks = [
+    { label: 'Tableau de bord', href: '/admin', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+    { label: 'Annonces', href: '/admin/properties', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z' },
+    { label: 'Nouvelle Annonce', href: '/admin/properties/new', icon: 'M12 4v16m8-8H4' },
+    { label: 'Messages', href: '/admin/messages', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+];
+
+export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // Middleware already redirects, but double-check here for safety
+    if (!user) redirect('/login');
+
+    // Fetch profile to get name and role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('name, role, avatar_url')
+        .eq('id', user.id)
+        .single();
+
+    if (!profile || profile.role !== 'admin') redirect('/');
+
+    const displayName = profile.name ?? user.email ?? 'Admin';
+    const initial = displayName.charAt(0).toUpperCase();
+    const avatarUrl = profile.avatar_url as string | null;
+
+    return (
+        <div className="min-h-screen flex bg-gray-50">
+            {/* Sidebar */}
+            <aside className="w-64 bg-luxury-black flex flex-col flex-shrink-0">
+                <div className="px-6 py-8 border-b border-white/8">
+                    <Link href="/" className="block">
+                        <span className="font-serif text-sm tracking-[0.2em] uppercase text-white">SOTHEBY REALTY</span>
+                        <span className="block text-[9px] tracking-[0.25em] uppercase text-white/30 mt-1">Administration</span>
+                    </Link>
+                </div>
+
+                <nav className="flex-1 p-4 flex flex-col gap-1">
+                    {sidebarLinks.map((link) => (
+                        <Link key={link.href} href={link.href} className="admin-nav-link">
+                            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <path d={link.icon} />
+                            </svg>
+                            {link.label}
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* User info + logout */}
+                <div className="p-4 border-t border-white/8">
+                    <div className="flex items-center gap-3 px-4 py-3 mb-1">
+                        {avatarUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={avatarUrl} alt={displayName} className="w-8 h-8 rounded-full object-cover" />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-champagne/20 flex items-center justify-center text-champagne text-sm font-semibold">
+                                {initial}
+                            </div>
+                        )}
+                        <div className="min-w-0">
+                            <p className="text-xs font-medium text-white truncate">{displayName}</p>
+                            <p className="text-[10px] text-white/30 truncate">{user.email}</p>
+                        </div>
+                    </div>
+                    <LogoutButton />
+                </div>
+            </aside>
+
+            {/* Main content */}
+            <main className="flex-1 overflow-auto">
+                <div className="max-w-6xl mx-auto p-8">
+                    {children}
+                </div>
+            </main>
+        </div>
+    );
+}

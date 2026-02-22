@@ -1,0 +1,98 @@
+// Prisma schema — PostgreSQL (Supabase)
+// Local dev: use DATABASE_URL with a local postgres or Supabase
+// Production: Supabase PostgreSQL with pgBouncer pooling on Vercel
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")       // pooled URL (pgBouncer) — used at runtime
+  directUrl = env("DIRECT_URL")         // direct URL — used only for prisma migrate
+}
+
+// NOTE: SQLite doesn't support native enums; stored as String with app-level validation.
+// On production PostgreSQL, change provider = "postgresql" and add @db.Text to large text fields.
+
+model Property {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  description String        // @db.Text on Postgres
+  price       Int
+  surface     Int
+  rooms       Int
+  bedrooms    Int
+  bathrooms   Int
+  type        String        // VILLA | APPARTEMENT | CHALET | DOMAINE | PENTHOUSE | MAISON | TERRAIN
+  destination String
+  city        String
+  address     String?
+  latitude    Float?
+  longitude   Float?
+  featured    Boolean       @default(false)
+  published   Boolean       @default(true)
+  badge       String?
+  amenities   String        @default("[]") // JSON array serialized as string
+  tourUrl     String?
+  dpe         String?       @default("C")
+  charges     Int?
+  reference   String        @unique @default(cuid())
+  agentId     String?
+  agent       Agent?        @relation(fields: [agentId], references: [id])
+  images      PropertyImage[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([destination])
+  @@index([type])
+  @@index([featured])
+  @@index([published])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  url        String
+  alt        String
+  order      Int      @default(0)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Agent {
+  id         String     @id @default(cuid())
+  name       String
+  title      String
+  phone      String
+  email      String     @unique
+  photo      String?
+  bio        String?
+  territory  String?
+  properties Property[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  hashedPassword String
+  name           String?
+  role           String   @default("ADMIN") // ADMIN | AGENT
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  budget    String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
