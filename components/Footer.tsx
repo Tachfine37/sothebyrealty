@@ -22,7 +22,7 @@ export default function Footer() {
 
                         <div className="mt-auto pt-8">
                             <p className="text-[#6B7280] text-xs">
-                                © 2026 Copyrights by Sotheby's . All Rights Reserved
+                                © 2026 Copyrights by Sotheby&apos;s . All Rights Reserved
                             </p>
                         </div>
                     </div>
