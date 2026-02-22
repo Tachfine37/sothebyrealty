@@ -136,7 +136,7 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
             {/* ── IMAGE BLOCK (Replaces CTA) ────────────────────── */}
             <section className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden" aria-hidden="true">
                 <Image
-                    src="/images/properties/chalet-2.jpg"
+                    src="/uploads/chalet-courchevel-1.jpg"
                     alt="Luxury Property"
                     fill
                     className="object-cover object-center"
