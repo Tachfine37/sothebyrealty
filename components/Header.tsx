@@ -89,12 +89,7 @@ export default function Header() {
 
                             <UserAuthButton isTransparent={true} />
 
-                            <Link
-                                href="/contact"
-                                className="btn-sm text-[10px] tracking-widest btn-outline-white"
-                            >
-                                {t.nav.contactUs}
-                            </Link>
+
                         </div>
 
                         {/* Mobile toggle */}
@@ -138,9 +133,7 @@ export default function Header() {
                                     {item.label}
                                 </Link>
                             ))}
-                            <Link href="/contact" onClick={() => setMobileOpen(false)} className="btn-primary mt-4 justify-center">
-                                {t.nav.contactUs}
-                            </Link>
+
                             {/* Language toggle for mobile */}
                             <button
                                 onClick={toggle}
