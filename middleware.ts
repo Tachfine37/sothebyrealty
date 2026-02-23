@@ -13,17 +13,7 @@ export async function middleware(request: NextRequest) {
         // Refresh Supabase session on every request
         const { supabaseResponse, user } = await updateSession(request);
 
-        // ─── Protect /admin routes (Basic auth check) ──────────────────────────
-        if (pathname.startsWith('/admin')) {
-            // Not authenticated → redirect to login
-            if (!user) {
-                const loginUrl = new URL('/login', request.url);
-                loginUrl.searchParams.set('next', pathname);
-                return NextResponse.redirect(loginUrl);
-            }
-            // Note: Admin role check is handled either in layout.tsx or at route level
-            // because querying the database in Middleware (Edge Runtime) can cause crashes.
-        }
+
 
         // ─── Protect /login: redirect authenticated users away ────────────────
         if (pathname === '/login' && user) {

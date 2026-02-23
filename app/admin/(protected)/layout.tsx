@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import LogoutButton from '@/components/LogoutButton';
 
 export const metadata: Metadata = { title: 'Admin | Sotheby Realty France' };
@@ -15,24 +16,22 @@ const sidebarLinks = [
 ];
 
 export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const session = await getServerSession(authOptions);
 
-    // Middleware already redirects, but double-check here for safety
-    if (!user) redirect('/login');
+    if (!session || !session.user) {
+        redirect('/admin/login');
+    }
 
-    // Fetch profile to get name and role
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('name, role, avatar_url')
-        .eq('id', user.id)
-        .single();
+    const { user } = session;
+    const role = (user as any).role;
 
-    if (!profile || profile.role !== 'admin') redirect('/');
+    if (role !== 'ADMIN' && role !== 'admin') {
+        redirect('/');
+    }
 
-    const displayName = profile.name ?? user.email ?? 'Admin';
+    const displayName = user.name ?? user.email ?? 'Admin';
     const initial = displayName.charAt(0).toUpperCase();
-    const avatarUrl = profile.avatar_url as string | null;
+    const avatarUrl = (user as any).image as string | null;
 
     return (
         <div className="min-h-screen flex bg-gray-50">

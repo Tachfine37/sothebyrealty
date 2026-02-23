@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { signOut } from 'next-auth/react';
 
 export default function LogoutButton({ className }: { className?: string }) {
     const router = useRouter();
@@ -9,8 +10,7 @@ export default function LogoutButton({ className }: { className?: string }) {
     async function handleLogout() {
         const supabase = createClient();
         await supabase.auth.signOut();
-        router.push('/');
-        router.refresh();
+        await signOut({ callbackUrl: '/' }); // Next-Auth sign out
     }
 
     return (
