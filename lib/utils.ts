@@ -49,12 +49,11 @@ export function slugify(str: string): string {
  * Destination display names
  */
 export const DESTINATION_LABELS: Record<string, string> = {
-    'cote-dazur': "Côte d'Azur",
-    'paris': 'Paris & Île-de-France',
-    'alpes': 'Alpes & Savoie',
-    'bordeaux': 'Bordeaux',
-    'provence': 'Provence',
-    'bretagne': 'Bretagne',
+    'courchevel': 'Courchevel',
+    'paris': 'Paris',
+    'st-moritz': 'St Moritz',
+    'verbier': 'Verbier',
+    'zermatt': 'Zermatt',
 };
 
 /**

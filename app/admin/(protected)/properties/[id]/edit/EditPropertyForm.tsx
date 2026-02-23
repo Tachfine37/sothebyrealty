@@ -7,11 +7,11 @@ import { parseAmenities } from '@/lib/utils';
 import PropertyImagesManager from './PropertyImagesManager';
 
 const DESTINATIONS = [
-    { value: 'cote-dazur', label: "Côte d'Azur" },
-    { value: 'paris', label: 'Paris & Île-de-France' },
-    { value: 'alpes', label: 'Alpes & Savoie' },
-    { value: 'bordeaux', label: 'Bordeaux' },
-    { value: 'provence', label: 'Provence' },
+    { value: 'courchevel', label: 'Courchevel' },
+    { value: 'paris', label: 'Paris' },
+    { value: 'st-moritz', label: 'St Moritz' },
+    { value: 'verbier', label: 'Verbier' },
+    { value: 'zermatt', label: 'Zermatt' },
 ];
 
 const TYPES = ['VILLA', 'APPARTEMENT', 'CHALET', 'DOMAINE', 'PENTHOUSE', 'MAISON', 'TERRAIN'];

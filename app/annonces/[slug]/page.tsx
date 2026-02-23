@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PropertyCard from '@/components/PropertyCard';
 import BookingWidget from '@/components/BookingWidget';
+import AvailabilityCalendar from '@/components/AvailabilityCalendar';
 import SaveButton from '@/components/SaveButton';
 import { formatPrice, formatPricePerSqm, DESTINATION_LABELS, parseAmenities } from '@/lib/utils';
 
@@ -187,22 +188,49 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                         </section>
 
                         {/* Features */}
-                        {parseAmenities(property.amenities).length > 0 && (
-                            <section className="mb-12 pb-12 border-b border-gray-200">
-                                <h3 className="text-xl font-bold text-luxury-black mb-6">Features</h3>
-                                <p className="text-[13px] font-bold text-gray-500 uppercase tracking-wider mb-4">Amenities</p>
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 text-[15px] text-gray-700">
-                                    {parseAmenities(property.amenities).map((amenity: string) => (
-                                        <li key={amenity} className="flex items-center gap-3">
-                                            <svg className="w-[18px] h-[18px] text-gray-400 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+                        <section className="mb-12 pb-12 border-b border-gray-200 bg-[#f8f9fa] -mx-6 px-6 sm:-mx-12 sm:px-12 py-12 rounded-2xl">
+                            <h3 className="text-xl font-bold text-luxury-black mb-8">Features</h3>
+
+                            {/* Amenities */}
+                            <div className="mb-10">
+                                <h4 className="text-[15px] font-bold text-luxury-black mb-6">Amenities</h4>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-[15px] text-gray-600">
+                                    {[
+                                        'Air Conditioning', 'Microwave',
+                                        'Barbecue Area', 'Sauna',
+                                        'Dishwasher', 'Swimming Pool',
+                                        'Gym', 'TV Cable',
+                                        'Laundry', 'Wi-Fi'
+                                    ].map((amenity) => (
+                                        <li key={amenity} className="flex items-center gap-4">
+                                            <svg className="w-4 h-4 text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                             </svg>
-                                            {amenity}
+                                            <span className="font-light">{amenity}</span>
                                         </li>
                                     ))}
                                 </ul>
-                            </section>
-                        )}
+                            </div>
+
+                            {/* Facilities */}
+                            <div>
+                                <h4 className="text-[15px] font-bold text-luxury-black mb-6">Facilities</h4>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-[15px] text-gray-600">
+                                    {[
+                                        'Free Parking', 'Reception',
+                                        'Markets', 'Security',
+                                        'Playground'
+                                    ].map((facility) => (
+                                        <li key={facility} className="flex items-center gap-4">
+                                            <svg className="w-4 h-4 text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                            <span className="font-light">{facility}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </section>
 
                         {/* Terms & rules */}
                         <section className="mb-12 pb-12 border-b border-gray-200">
@@ -217,7 +245,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                         {/* Map */}
                         {property.latitude && property.longitude && (
-                            <section className="mb-12">
+                            <section className="mb-12 pb-12 border-b border-gray-200">
                                 <h3 className="text-xl font-bold text-luxury-black mb-6">Location</h3>
                                 <div className="h-[400px] w-full rounded-2xl overflow-hidden bg-gray-100">
                                     <iframe
@@ -229,6 +257,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                                 </div>
                             </section>
                         )}
+
+                        {/* Availability Calendar */}
+                        <section className="mb-12">
+                            <AvailabilityCalendar propertyId={property.id} />
+                        </section>
 
                     </div>
 

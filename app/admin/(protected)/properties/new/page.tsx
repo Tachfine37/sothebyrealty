@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const DESTINATIONS = [
-    { value: 'cote-dazur', label: "Côte d'Azur" },
-    { value: 'paris', label: 'Paris & Île-de-France' },
-    { value: 'alpes', label: 'Alpes & Savoie' },
-    { value: 'bordeaux', label: 'Bordeaux' },
-    { value: 'provence', label: 'Provence' },
+    { value: 'courchevel', label: 'Courchevel' },
+    { value: 'paris', label: 'Paris' },
+    { value: 'st-moritz', label: 'St Moritz' },
+    { value: 'verbier', label: 'Verbier' },
+    { value: 'zermatt', label: 'Zermatt' },
 ];
 
 const TYPES = ['VILLA', 'APPARTEMENT', 'CHALET', 'DOMAINE', 'PENTHOUSE', 'MAISON', 'TERRAIN'];
@@ -17,20 +17,32 @@ export default function NewPropertyPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+    const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+    const [isUploading, setIsUploading] = useState(false);
 
     async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        const preview = URL.createObjectURL(file);
-        setImagePreview(preview);
-        const form = new FormData();
-        form.append('file', file);
-        const res = await fetch('/api/upload', { method: 'POST', body: form });
-        if (res.ok) {
-            const data = await res.json();
-            setUploadedImageUrl(data.url);
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+
+        setIsUploading(true);
+        const newPreviews = files.map(f => URL.createObjectURL(f));
+        setImagePreviews(prev => [...prev, ...newPreviews]);
+
+        try {
+            const uploadedUrls: string[] = [];
+            for (const file of files) {
+                const form = new FormData();
+                form.append('file', file);
+                const res = await fetch('/api/upload', { method: 'POST', body: form });
+                if (res.ok) {
+                    const data = await res.json();
+                    uploadedUrls.push(data.url);
+                }
+            }
+            setUploadedImageUrls(prev => [...prev, ...uploadedUrls]);
+        } finally {
+            setIsUploading(false);
         }
     }
 
@@ -72,13 +84,17 @@ export default function NewPropertyPage() {
                 throw new Error(data.error ?? 'Erreur lors de la création');
             }
             const property = await res.json();
-            // If we uploaded an image, attach it
-            if (uploadedImageUrl) {
-                await fetch(`/api/properties/${property.slug}/images`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: uploadedImageUrl, alt: body.title, order: 0 }),
-                });
+            // If we uploaded images, attach them
+            if (uploadedImageUrls.length > 0) {
+                await Promise.all(
+                    uploadedImageUrls.map((url, i) =>
+                        fetch(`/api/images/${property.id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ url, alt: `${body.title} - ${i + 1}` }),
+                        })
+                    )
+                );
             }
             router.push('/admin/properties');
         } catch (err: unknown) {
@@ -209,21 +225,25 @@ export default function NewPropertyPage() {
 
                     {/* Image upload */}
                     <div className="admin-card flex flex-col gap-4">
-                        <h2 className="font-semibold text-luxury-black text-sm border-b border-gray-100 pb-3">Photo principale</h2>
-                        {imagePreview && (
-                            <div className="relative w-full h-40 overflow-hidden bg-luxury-cream">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={imagePreview} alt="Aperçu" className="w-full h-full object-cover" />
+                        <h2 className="font-semibold text-luxury-black text-sm border-b border-gray-100 pb-3">Photos de l&apos;annonce</h2>
+                        {imagePreviews.length > 0 && (
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                                {imagePreviews.map((preview, i) => (
+                                    <div key={i} className="relative w-full aspect-video overflow-hidden bg-luxury-cream">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={preview} alt="Aperçu" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
                             </div>
                         )}
-                        <label className="border-2 border-dashed border-gray-200 hover:border-champagne transition-colors p-6 text-center cursor-pointer block">
+                        <label className={`border-2 border-dashed border-gray-200 hover:border-champagne transition-colors p-6 text-center cursor-pointer block ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
                             <svg className="w-8 h-8 text-luxury-light mx-auto mb-2" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
                             </svg>
-                            <span className="text-xs text-luxury-muted">Cliquer pour choisir une image</span>
-                            <input type="file" className="sr-only" accept="image/*" onChange={handleImageUpload} />
+                            <span className="text-xs text-luxury-muted">{isUploading ? 'Upload en cours...' : 'Cliquer pour choisir des images'}</span>
+                            <input type="file" multiple className="sr-only" accept="image/*" onChange={handleImageUpload} disabled={isUploading} />
                         </label>
-                        <p className="text-[11px] text-luxury-muted">JPEG, PNG, WebP. Max 10 MB.</p>
+                        <p className="text-[11px] text-luxury-muted">JPEG, PNG, WebP. Max 10 MB par image.</p>
                     </div>
                 </div>
             </form>

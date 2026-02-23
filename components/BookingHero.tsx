@@ -8,11 +8,11 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from '@/lib/i18n/LanguageContext';
 
 const DESTINATIONS = [
-    { slug: 'cote-dazur', labelFr: "Côte d'Azur", labelEn: "Côte d'Azur" },
-    { slug: 'paris', labelFr: 'Paris & Île-de-France', labelEn: 'Paris & Île-de-France' },
-    { slug: 'alpes', labelFr: 'Alpes & Savoie', labelEn: 'Alps & Savoy' },
-    { slug: 'bordeaux', labelFr: 'Bordeaux', labelEn: 'Bordeaux' },
-    { slug: 'provence', labelFr: 'Provence', labelEn: 'Provence' },
+    { slug: 'courchevel', labelFr: 'Courchevel', labelEn: 'Courchevel' },
+    { slug: 'paris', labelFr: 'Paris', labelEn: 'Paris' },
+    { slug: 'st-moritz', labelFr: 'St Moritz', labelEn: 'St Moritz' },
+    { slug: 'verbier', labelFr: 'Verbier', labelEn: 'Verbier' },
+    { slug: 'zermatt', labelFr: 'Zermatt', labelEn: 'Zermatt' },
 ];
 
 function CalendarIcon() {

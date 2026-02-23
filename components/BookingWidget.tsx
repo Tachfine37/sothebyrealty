@@ -33,6 +33,15 @@ export default function BookingWidget({ propertyRef, price }: { propertyRef: str
                 <span className="text-2xl font-bold text-luxury-black">Price on demand</span>
             </div>
 
+            {/* Availability Banner */}
+            {date?.from && date?.to && (
+                <div className="mb-4 border border-[#8DC63F] rounded-lg p-4 text-center bg-white">
+                    <p className="text-[#8DC63F] font-bold text-lg">
+                        Your dates are available!
+                    </p>
+                </div>
+            )}
+
             {showLoginModal && (
                 <div className="mb-4 border border-[#B91C1C] rounded-lg p-4 text-center">
                     <p className="text-[#B91C1C] font-semibold text-[15px]">
