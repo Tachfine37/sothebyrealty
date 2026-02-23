@@ -166,7 +166,7 @@ export default function LoginModal({ isOpen, onClose, initialMode = 'login' }: L
 
                     <div className="mt-6 text-sm text-gray-600 pb-4">
                         {mode === 'login' ? (
-                            <>Don't have an account? <button onClick={() => setMode('register')} className="text-[#D4A373] hover:underline font-medium">Register</button></>
+                            <>Don&apos;t have an account? <button onClick={() => setMode('register')} className="text-[#D4A373] hover:underline font-medium">Register</button></>
                         ) : (
                             <>Do you already have an account? <button onClick={() => setMode('login')} className="text-[#D4A373] hover:underline font-medium">Log In</button></>
                         )}
