@@ -13,11 +13,13 @@ export function cn(...inputs: ClassValue[]) {
  * e.g. 12500000 → "12 500 000 €"
  */
 export function formatPrice(price: number): string {
-    return new Intl.NumberFormat('fr-FR', {
+    const formatted = new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
         maximumFractionDigits: 0,
     }).format(price);
+
+    return `${formatted} / night`;
 }
 
 /**

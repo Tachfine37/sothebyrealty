@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { format } from 'date-fns';
+import { DayPicker, DateRange } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from '@/lib/i18n/LanguageContext';
 
@@ -36,8 +39,8 @@ function GuestSelector({
     onChange,
     lang,
 }: {
-    value: { adults: number; children: number };
-    onChange: (v: { adults: number; children: number }) => void;
+    value: { adults: number; children: number; pets: number };
+    onChange: (v: { adults: number; children: number; pets: number }) => void;
     lang: string;
 }) {
     const [open, setOpen] = useState(false);
@@ -54,10 +57,33 @@ function GuestSelector({
     }, []);
 
     const total = value.adults + value.children;
+    const hasPets = value.pets > 0;
+
+    // Formatting display text
+    const displayPartsFr = [];
+    const displayPartsEn = [];
+
+    if (value.adults > 0) {
+        displayPartsFr.push(value.adults === 1 ? '1 adulte' : `${value.adults} adultes`);
+        displayPartsEn.push(value.adults === 1 ? '1 adult' : `${value.adults} adults`);
+    }
+    if (value.children > 0) {
+        displayPartsFr.push(value.children === 1 ? '1 enfant' : `${value.children} enfants`);
+        displayPartsEn.push(value.children === 1 ? '1 child' : `${value.children} children`);
+    }
+    if (value.pets > 0) {
+        displayPartsFr.push(value.pets === 1 ? '1 animal' : `${value.pets} animaux`);
+        displayPartsEn.push(value.pets === 1 ? '1 pet' : `${value.pets} pets`);
+    }
+
+    const displayText = total > 0 || hasPets
+        ? (lang === 'fr' ? displayPartsFr.join(', ') : displayPartsEn.join(', '))
+        : (lang === 'fr' ? 'Voyageurs' : 'Guests');
+
     const labels = {
         adultes: lang === 'fr' ? 'Adultes' : 'Adults',
         enfants: lang === 'fr' ? 'Enfants' : 'Children',
-        voyageurs: lang === 'fr' ? (total === 1 ? '1 voyageur' : `${total} voyageurs`) : (total === 1 ? '1 guest' : `${total} guests`),
+        animaux: lang === 'fr' ? 'Animaux' : 'Pets'
     };
 
     return (
@@ -65,49 +91,84 @@ function GuestSelector({
             <button
                 type="button"
                 onClick={() => setOpen(!open)}
-                className="flex items-center gap-2.5 w-full bg-transparent px-4 h-14 text-sm text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-champagne"
+                className="flex items-center gap-2.5 w-full bg-transparent px-4 h-14 text-sm text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-champagne truncate"
             >
-                <div className="text-gray-500 pointer-events-none">
+                <div className="text-gray-500 pointer-events-none flex-shrink-0">
                     <GuestIcon />
                 </div>
-                <span className={total > 0 ? 'text-gray-900 font-medium' : 'text-gray-500 font-medium'}>
-                    {total > 0 ? labels.voyageurs : (lang === 'fr' ? 'Voyageurs' : 'Guests')}
+                <span className={total > 0 || hasPets ? 'text-gray-900 font-medium truncate' : 'text-gray-500 font-medium truncate'}>
+                    {displayText}
                 </span>
             </button>
 
             {open && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white shadow-2xl border border-gray-100 z-50 p-4 min-w-[220px]">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white shadow-2xl border border-gray-100 z-50 p-6 min-w-[280px]">
+                    {/* Adults and Children Steppers */}
                     {[
-                        { key: 'adults', label: labels.adultes, desc: lang === 'fr' ? '18 ans et +' : '18 and older' },
-                        { key: 'children', label: labels.enfants, desc: lang === 'fr' ? '0-17 ans' : '0-17 years' }
-                    ].map(({ key, label, desc }) => (
-                        <div key={key} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                            <div>
-                                <p className="text-sm font-medium text-gray-900">{label}</p>
-                                <p className="text-xs text-gray-400">{desc}</p>
+                        { key: 'adults', label: labels.adultes },
+                        { key: 'children', label: labels.enfants }
+                    ].map(({ key, label }) => (
+                        <div key={key} className="flex items-center justify-between py-4 border-b border-gray-100">
+                            <div className="flex items-center gap-4">
+                                <span className="w-4 text-center text-sm font-bold text-gray-900">
+                                    {value[key as keyof typeof value]}
+                                </span>
+                                <span className="text-sm font-medium text-gray-600">{label}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <button
                                     type="button"
-                                    onClick={() => onChange({ ...value, [key]: Math.max(0, value[key as keyof typeof value] - 1) })}
-                                    className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:border-champagne hover:text-champagne transition-colors text-lg leading-none disabled:opacity-30"
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange({ ...value, [key]: Math.max(0, value[key as keyof typeof value] - 1) }); }}
+                                    className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center text-gray-700 hover:border-luxury-black hover:text-luxury-black transition-colors disabled:opacity-30 disabled:hover:border-gray-400 disabled:hover:text-gray-700"
                                     disabled={value[key as keyof typeof value] === 0}
                                 >
-                                    −
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 12H4" /></svg>
                                 </button>
-                                <span className="w-4 text-center text-sm font-medium text-gray-900">
-                                    {value[key as keyof typeof value]}
-                                </span>
                                 <button
                                     type="button"
-                                    onClick={() => onChange({ ...value, [key]: value[key as keyof typeof value] + 1 })}
-                                    className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:border-champagne hover:text-champagne transition-colors text-lg leading-none"
+                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange({ ...value, [key]: value[key as keyof typeof value] + 1 }); }}
+                                    className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center text-gray-700 hover:border-luxury-black hover:text-luxury-black transition-colors"
                                 >
-                                    +
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" /></svg>
                                 </button>
                             </div>
                         </div>
                     ))}
+
+                    {/* Pets Toggle */}
+                    <div className="flex items-center justify-between py-5 border-b border-gray-100">
+                        <span className="text-sm font-medium text-gray-600">{labels.animaux}</span>
+                        <div className="flex items-center gap-4">
+                            <label className="flex items-center gap-2 cursor-pointer group" onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange({ ...value, pets: 1 }); }}>
+                                <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">Yes</span>
+                                <div
+                                    className={`w-4 h-4 rounded-full border flex flex-shrink-0 justify-center items-center transition-colors ${value.pets > 0 ? 'border-[#DDA15E] bg-[#DDA15E]' : 'border-gray-300'}`}
+                                >
+                                    {value.pets > 0 && <span className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                </div>
+                            </label>
+
+                            <label className="flex items-center gap-2 cursor-pointer group" onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange({ ...value, pets: 0 }); }}>
+                                <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">No</span>
+                                <div
+                                    className={`w-4 h-4 rounded-full border flex flex-shrink-0 justify-center items-center transition-colors ${value.pets === 0 ? 'border-[#DDA15E] bg-[#DDA15E]' : 'border-gray-300'}`}
+                                >
+                                    {value.pets === 0 && <span className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    {/* Apply Button */}
+                    <div className="pt-6 pb-2">
+                        <button
+                            type="button"
+                            onClick={() => setOpen(false)}
+                            className="w-full bg-[#DDA15E] hover:bg-[#c99050] text-white font-bold py-3 text-sm rounded-sm transition-colors"
+                        >
+                            Apply
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
@@ -118,9 +179,9 @@ export default function BookingHero() {
     const router = useRouter();
     const { lang } = useTranslations();
     const [destination, setDestination] = useState('');
-    const [arrive, setArrive] = useState('');
-    const [depart, setDepart] = useState('');
-    const [guests, setGuests] = useState({ adults: 0, children: 0 });
+    const [date, setDate] = useState<DateRange | undefined>();
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [guests, setGuests] = useState({ adults: 0, children: 0, pets: 0 });
 
     const content = {
         fr: {
@@ -155,16 +216,17 @@ export default function BookingHero() {
         e.preventDefault();
         const params = new URLSearchParams();
         if (destination) params.set('destination', destination);
-        if (arrive) params.set('arrive', arrive);
-        if (depart) params.set('depart', depart);
+        if (date?.from) params.set('arrive', format(date.from, 'yyyy-MM-dd'));
+        if (date?.to) params.set('depart', format(date.to, 'yyyy-MM-dd'));
         const total = guests.adults + guests.children;
         if (total > 0) params.set('guests', String(total));
+        if (guests.pets > 0) params.set('pets', String(guests.pets));
         router.push(`/annonces?${params.toString()}`);
     };
 
     return (
         <section
-            className="relative py-32 md:py-40 overflow-hidden"
+            className="relative py-32 md:py-40"
             aria-label="Booking search"
         >
             {/* Background photo */}
@@ -210,42 +272,94 @@ export default function BookingHero() {
                         </div>
                     </div>
 
-                    {/* Arrive */}
-                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                            <CalendarIcon />
+                    {/* Dates Container */}
+                    <div className="flex-1 flex flex-col lg:flex-row gap-2 relative">
+                        {/* Arrive */}
+                        <div
+                            className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative cursor-pointer"
+                            onClick={() => setShowCalendar(!showCalendar)}
+                        >
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                                <CalendarIcon />
+                            </div>
+                            <div className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm flex items-center focus:outline-none focus:ring-2 focus:ring-champagne">
+                                {date?.from ? format(date.from, 'MM/dd/yyyy') : <span className="text-gray-400">{content.arrive}</span>}
+                            </div>
                         </div>
-                        <input
-                            type={arrive ? 'date' : 'text'}
-                            onFocus={(e) => (e.target.type = 'date')}
-                            onBlur={(e) => (!e.target.value ? (e.target.type = 'text') : null)}
-                            value={arrive}
-                            onChange={(e) => setArrive(e.target.value)}
-                            placeholder={content.arrive}
-                            min={new Date().toISOString().split('T')[0]}
-                            className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-champagne placeholder:text-gray-500 placeholder:font-medium"
-                        />
-                    </div>
 
-                    {/* Depart */}
-                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                            <CalendarIcon />
+                        {/* Depart */}
+                        <div
+                            className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden relative cursor-pointer"
+                            onClick={() => setShowCalendar(!showCalendar)}
+                        >
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                                <CalendarIcon />
+                            </div>
+                            <div className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm flex items-center focus:outline-none focus:ring-2 focus:ring-champagne">
+                                {date?.to ? format(date.to, 'MM/dd/yyyy') : <span className="text-gray-400">{content.depart}</span>}
+                            </div>
                         </div>
-                        <input
-                            type={depart ? 'date' : 'text'}
-                            onFocus={(e) => (e.target.type = 'date')}
-                            onBlur={(e) => (!e.target.value ? (e.target.type = 'text') : null)}
-                            value={depart}
-                            onChange={(e) => setDepart(e.target.value)}
-                            placeholder={content.depart}
-                            min={arrive || new Date().toISOString().split('T')[0]}
-                            className="w-full bg-transparent text-gray-700 font-medium h-14 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-champagne placeholder:text-gray-500 placeholder:font-medium"
-                        />
+
+                        {/* Calendar Dropdown */}
+                        {showCalendar && (
+                            <div className="absolute top-[calc(100%+10px)] left-0 lg:left-[-50%] xl:left-0 bg-white rounded-lg shadow-2xl border border-gray-200 p-6 z-[100] text-left w-max">
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex flex-col">
+                                            <span className="text-xs text-gray-500 font-bold uppercase">{content.arrive}</span>
+                                            <span className="text-sm font-bold text-luxury-black">{date?.from ? format(date.from, 'MM/dd/yyyy') : 'Add date'}</span>
+                                        </div>
+                                        <span className="text-gray-300">-</span>
+                                        <div className="flex flex-col">
+                                            <span className="text-xs text-gray-500 font-bold uppercase">{content.depart}</span>
+                                            <span className="text-sm font-bold text-luxury-black">{date?.to ? format(date.to, 'MM/dd/yyyy') : 'Add date'}</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.preventDefault(); setDate(undefined); }}
+                                        className="text-sm font-bold text-gray-400 hover:text-gray-900 transition-all"
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                                <style>{`
+                                    .rdp { --rdp-cell-size: 40px; --rdp-accent-color: #222222; --rdp-background-color: #f3f4f6; margin: 0; }
+                                    .rdp-day_selected { font-weight: bold; }
+                                    .rdp-day_range_middle { background-color: var(--rdp-background-color); color: #222222; border-radius: 0; }
+                                    .rdp-day_range_start { background-color: var(--rdp-accent-color); color: white; border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+                                    .rdp-day_range_end { background-color: var(--rdp-accent-color); color: white; border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+                                    .rdp-month_caption { padding-bottom: 1.5rem; }
+                                    .rdp-caption_label { font-size: 1.1rem; font-weight: bold; color: #222222; }
+                                    .rdp-head_cell { font-size: 0.8rem; font-weight: normal; color: #6b7280; text-transform: uppercase; padding-bottom: 0.5rem; }
+                                    .rdp-nav_button { color: #222222; border: 1px solid #e5e7eb; border-radius: 8px; width: 32px; height: 32px; }
+                                    .rdp-nav_button:hover { background-color: #f9fafb; border-color: #d1d5db; }
+                                    .rdp-table { border-collapse: separate; border-spacing: 0 4px; }
+                                `}</style>
+                                <DayPicker
+                                    mode="range"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    numberOfMonths={2}
+                                    pagedNavigation
+                                    className="font-sans"
+                                />
+
+                                <div className="pt-4 mt-4 border-t border-gray-100 flex justify-end">
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.preventDefault(); setShowCalendar(false); }}
+                                        className="bg-[#DDA15E] hover:bg-[#c99050] text-white font-bold py-2 px-8 text-sm rounded-sm transition-colors"
+                                    >
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Guests */}
-                    <div className="flex-1 min-w-0 bg-white rounded-sm overflow-hidden">
+                    <div className="flex-1 bg-white rounded-sm relative">
                         <GuestSelector value={guests} onChange={setGuests} lang={lang} />
                     </div>
 

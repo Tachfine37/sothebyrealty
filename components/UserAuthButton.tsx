@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { useTranslations } from '@/lib/i18n/LanguageContext';
+import LoginModal from '@/components/LoginModal';
 
 interface Profile {
     name: string | null;
@@ -20,6 +21,8 @@ export default function UserAuthButton({ isTransparent }: Props) {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMode, setModalMode] = useState<'login' | 'register'>('login');
     const { t } = useTranslations();
 
     useEffect(() => {
@@ -65,31 +68,38 @@ export default function UserAuthButton({ isTransparent }: Props) {
     if (!profile) {
         // Not logged in → show login + register buttons
         return (
-            <div className="flex items-center gap-3">
-                <Link
-                    href="/login"
-                    className={cn(
-                        'flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.15em] uppercase transition-colors',
-                        isTransparent ? 'text-white/80 hover:text-white' : 'text-luxury-muted hover:text-champagne'
-                    )}
-                >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
-                    </svg>
-                    {t.nav.login}
-                </Link>
-                <Link
-                    href="/login?tab=register"
-                    className={cn(
-                        'text-[10px] font-semibold tracking-[0.15em] uppercase px-3 py-1.5 transition-colors',
-                        isTransparent
-                            ? 'border border-white/50 text-white hover:bg-white hover:text-luxury-black'
-                            : 'bg-champagne text-white hover:bg-champagne/80'
-                    )}
-                >
-                    {t.nav.register}
-                </Link>
-            </div>
+            <>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => { setModalMode('login'); setIsModalOpen(true); }}
+                        className={cn(
+                            'flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.15em] uppercase transition-colors',
+                            isTransparent ? 'text-white/80 hover:text-white' : 'text-luxury-muted hover:text-champagne'
+                        )}
+                    >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
+                        </svg>
+                        {t.nav.login}
+                    </button>
+                    <button
+                        onClick={() => { setModalMode('register'); setIsModalOpen(true); }}
+                        className={cn(
+                            'text-[10px] font-semibold tracking-[0.15em] uppercase px-3 py-1.5 transition-colors',
+                            isTransparent
+                                ? 'border border-white/50 text-white hover:bg-white hover:text-luxury-black'
+                                : 'bg-champagne text-white hover:bg-champagne/80'
+                        )}
+                    >
+                        {t.nav.register}
+                    </button>
+                </div>
+                <LoginModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    initialMode={modalMode}
+                />
+            </>
         );
     }
 

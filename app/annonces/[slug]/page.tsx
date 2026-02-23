@@ -6,6 +6,8 @@ import { prisma } from '@/lib/prisma';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PropertyCard from '@/components/PropertyCard';
+import BookingWidget from '@/components/BookingWidget';
+import SaveButton from '@/components/SaveButton';
 import { formatPrice, formatPricePerSqm, DESTINATION_LABELS, parseAmenities } from '@/lib/utils';
 
 interface PageProps {
@@ -115,10 +117,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                         </div>
                     </div>
                     <div className="flex gap-4">
-                        <button className="flex items-center gap-2 text-sm font-medium text-luxury-black hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                            Save
-                        </button>
+                        <SaveButton />
                         <button className="flex items-center gap-2 text-sm font-medium text-luxury-black hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
                             Print
@@ -237,59 +236,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     <div className="lg:col-span-1">
                         <div className="sticky top-28 space-y-8">
                             {/* Booking / Price Widget */}
-                            <div className="border border-gray-200 rounded-2xl p-6 shadow-[0_6px_24px_rgba(0,0,0,0.06)] bg-white">
-                                <div className="mb-6">
-                                    <span className="text-2xl font-bold text-luxury-black">Price on demand</span>
-                                </div>
+                            <BookingWidget propertyRef={property.reference!} price={property.price} />
 
-                                <form action="/api/contact" method="post" className="flex flex-col gap-3">
-                                    <div className="grid grid-cols-2 gap-0 border border-gray-300 rounded-lg overflow-hidden mb-0">
-                                        <div className="p-3 border-r border-gray-300 bg-white">
-                                            <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Check-in</div>
-                                            <input type="date" className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer" />
-                                        </div>
-                                        <div className="p-3 bg-white">
-                                            <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Check-out</div>
-                                            <input type="date" className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer" />
-                                        </div>
-                                    </div>
-                                    <div className="border border-gray-300 rounded-lg p-3 bg-white mb-2">
-                                        <div className="text-[10px] uppercase font-bold text-gray-800 mb-1">Guests</div>
-                                        <select className="w-full text-sm outline-none text-luxury-black bg-transparent cursor-pointer appearance-none bg-no-repeat bg-[position:right_center] bg-[image:url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] pr-6">
-                                            <option>1 guest</option>
-                                            <option>2 guests</option>
-                                            <option>3 guests</option>
-                                            <option>4+ guests</option>
-                                        </select>
-                                    </div>
 
-                                    <input type="hidden" name="propertyRef" value={property.reference} />
-                                    <button type="button" className="w-full bg-[#E31C5F] hover:bg-[#D01654] text-white font-bold text-[15px] py-3.5 rounded-lg transition-colors mt-2">
-                                        Check availability
-                                    </button>
-                                </form>
-                            </div>
-
-                            {/* Agent Widget (Loziara style 'Hosted by') */}
-                            {property.agent && (
-                                <div className="border border-gray-200 rounded-2xl p-6 bg-white flex flex-col items-center text-center shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
-                                    <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 mb-4 ring-1 ring-gray-200">
-                                        {property.agent.photo ? (
-                                            <Image src={property.agent.photo} alt={property.agent.name} fill className="object-cover" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-400 font-serif text-3xl">
-                                                {property.agent.name.charAt(0)}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <h3 className="font-bold text-xl text-luxury-black mb-1">Hosted by {property.agent.name}</h3>
-                                    <p className="text-gray-500 text-[15px] mb-6">{property.agent.title}</p>
-                                    <a href={`tel:${property.agent.phone.replace(/\s+/g, '')}`} className="w-full border border-black hover:bg-gray-50 text-black font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
-                                        <svg className="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                                        Contact Host
-                                    </a>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </div>
