@@ -76,16 +76,6 @@ export default function Header() {
 
                         {/* Desktop CTA */}
                         <div className="hidden lg:flex items-center gap-5">
-                            {/* Language toggle */}
-                            <button
-                                onClick={toggle}
-                                className="text-[10px] font-semibold tracking-[0.2em] transition-colors flex items-center gap-1 text-white/60 hover:text-white"
-                                title={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
-                            >
-                                <span className={lang === 'fr' ? 'text-white' : ''}> FR</span>
-                                <span className="opacity-40">|</span>
-                                <span className={lang === 'en' ? 'text-white' : ''}>EN</span>
-                            </button>
 
                             <UserAuthButton isTransparent={true} />
 
@@ -134,15 +124,7 @@ export default function Header() {
                                 </Link>
                             ))}
 
-                            {/* Language toggle for mobile */}
-                            <button
-                                onClick={toggle}
-                                className="flex items-center gap-2 text-sm text-white/50 hover:text-white mt-2"
-                            >
-                                <span className={lang === 'fr' ? 'text-champagne font-semibold' : ''}>Français</span>
-                                <span className="opacity-30">|</span>
-                                <span className={lang === 'en' ? 'text-champagne font-semibold' : ''}>English</span>
-                            </button>
+
                             {/* Auth button in mobile menu */}
                             <div className="mt-2 pt-6 border-t border-white/10">
                                 <UserAuthButton isTransparent={true} />

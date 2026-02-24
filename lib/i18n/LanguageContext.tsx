@@ -24,31 +24,17 @@ const LanguageContext = createContext<LanguageContextValue>({
 const LOCALSTORAGE_KEY = 'sotheby-lang';
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-    const [lang, setLangState] = useState<Lang>('fr');
-
-    // Hydrate from localStorage on mount
     useEffect(() => {
-        const saved = localStorage.getItem(LOCALSTORAGE_KEY) as Lang | null;
-        if (saved === 'en' || saved === 'fr') {
-            setLangState(saved);
-        }
+        document.documentElement.lang = 'en';
     }, []);
 
-    function setLang(l: Lang) {
-        setLangState(l);
-        localStorage.setItem(LOCALSTORAGE_KEY, l);
-        // Update html lang attribute for accessibility + SEO
-        document.documentElement.lang = l;
-    }
-
-    function toggle() { console.log("TOGGLE CLICKED", lang);
-        setLang(lang === 'fr' ? 'en' : 'fr');
-    }
-
-    const t = lang === 'en' ? en : fr;
-
     return (
-        <LanguageContext.Provider value={{ lang, t, setLang, toggle }}>
+        <LanguageContext.Provider value={{
+            lang: 'en',
+            t: en,
+            setLang: () => { },
+            toggle: () => { }
+        }}>
             {children}
         </LanguageContext.Provider>
     );
