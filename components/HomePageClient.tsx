@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import PropertyCard from '@/components/PropertyCard';
@@ -25,6 +26,7 @@ const WHY_ICONS = [
 
 export default function HomePageClient({ featuredProperties }: { featuredProperties: PropertyWithImages[] }) {
     const { t, lang } = useTranslations();
+    const [testiPage, setTestiPage] = useState(0);
 
     const destinations = DESTINATION_SLUGS.map((d) => ({
         ...d,
@@ -90,16 +92,30 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                     </div>
 
                     <div className="flex justify-end gap-2 mb-10">
-                        <button type="button" className="px-3 py-1 border border-[#DDA15E]/60 text-[#DDA15E] text-xs font-medium rounded-[2px] hover:bg-[#DDA15E] hover:text-white transition-colors">Prev</button>
-                        <button type="button" className="px-3 py-1 border border-[#DDA15E]/60 text-[#DDA15E] text-xs font-medium rounded-[2px] hover:bg-[#DDA15E] hover:text-white transition-colors">Next</button>
+                        <button
+                            type="button"
+                            onClick={() => setTestiPage(p => Math.max(0, p - 1))}
+                            disabled={testiPage === 0}
+                            className="px-3 py-1 border border-[#DDA15E]/60 text-[#DDA15E] text-xs font-medium rounded-[2px] hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Prev
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTestiPage(p => Math.min(Math.ceil(t.testimonials.items.length / 4) - 1, p + 1))}
+                            disabled={testiPage >= Math.ceil(t.testimonials.items.length / 4) - 1}
+                            className="px-3 py-1 border border-[#DDA15E]/60 text-[#DDA15E] text-xs font-medium rounded-[2px] hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Next
+                        </button>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-                        {t.testimonials.items.slice(0, 4).map((testimonial, idx) => (
+                        {t.testimonials.items.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial, idx) => (
                             <div key={testimonial.name} className="flex flex-col items-center">
                                 {/* Speech Bubble */}
-                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center">
-                                    <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans">
+                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex items-center justify-center">
+                                    <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans mt-2">
                                         {testimonial.text}
                                     </p>
                                     {/* Down Arrow / Triangle */}
@@ -107,19 +123,19 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                                 </div>
 
                                 {/* Avatar & Name */}
-                                <div className="text-center">
-                                    <div className="w-12 h-12 rounded-full bg-gray-200 mx-auto mb-3 overflow-hidden">
-                                        {/* Fallback image if real avatars aren't available */}
+                                <div className="text-center mt-2">
+                                    <div className="w-12 h-12 rounded-full bg-gray-200 mx-auto mb-3 overflow-hidden shadow-sm">
+                                        {/* Since images provided are distinct people, map some IDs so they stay constant */}
                                         <Image
-                                            src={`https://i.pravatar.cc/150?u=${idx}`}
+                                            src={`https://i.pravatar.cc/150?u=${testimonial.name.replace(/\s+/g, '')}`}
                                             alt={testimonial.name}
                                             width={48}
                                             height={48}
                                             className="w-full h-full object-cover"
-                                            unoptimized // For pravatar external URL in demo
+                                            unoptimized
                                         />
                                     </div>
-                                    <h4 className="text-[13px] font-bold text-[#374151] font-sans">{testimonial.name}</h4>
+                                    <h4 className="text-[14px] font-bold text-[#374151] font-sans">{testimonial.name}</h4>
                                 </div>
                             </div>
                         ))}
@@ -127,8 +143,12 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
 
                     {/* Pagination Dots */}
                     <div className="flex justify-center gap-2 mt-16">
-                        <span className="w-1 h-1 rounded-full bg-[#374151]"></span>
-                        <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                        {Array.from({ length: Math.ceil(t.testimonials.items.length / 4) }).map((_, i) => (
+                            <span
+                                key={i}
+                                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === testiPage ? 'bg-[#374151]' : 'bg-gray-300'}`}
+                            />
+                        ))}
                     </div>
                 </div>
             </section>

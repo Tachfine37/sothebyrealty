@@ -88,10 +88,14 @@ export const fr = {
         eyebrow: 'Témoignages',
         title: 'Ils Nous Font Confiance',
         items: [
+            { name: 'Michel Barabel', title: '', text: "Beautifully decorated and very clean. Minor noise from nearby construction, but overall a fantastic experience." },
+            { name: 'Maud Xavier', title: '', text: "Beautiful property and very quiet, perfect for a relaxing retreat. Only minor issue was the parking, but otherwise flawless." },
+            { name: 'Daniel Bouheret', title: '', text: "From sunrise by the pool to candlelit evenings, every moment felt carefully curated. Not just a stay, an experience." },
+            { name: 'Estelle Plin', title: '', text: "A hidden gem where modern luxury meets timeless tranquility. Each corner tells a story of comfort and elegance." },
             { name: 'Kathline Andrews', title: '', text: "Un sanctuaire caché où le temps ralentit et chaque détail respire le luxe. La porte d'entrée parfaite pour une évasion luxueuse." },
             { name: 'Aisha Khan', title: '', text: "L'emplacement était paisible et privé. Se réveiller avec la vue sur l'océan chaque matin était inoubliable." },
-            { name: 'Michel Barabel', title: '', text: "Magnifiquement décoré et très propre. Bruit mineur d'une construction voisine, mais dans l'ensemble une expérience fantastique." },
-            { name: 'Maud Xavier', title: '', text: "Belle propriété et très calme, parfaite pour une retraite relaxante. Le seul problème mineur était le parking, mais sinon impeccable." },
+            { name: 'Jean Dupont', title: '', text: "An absolute marvel. The concierge service was flawless and the amenities were beyond our expectations." },
+            { name: 'Marie Leroy', title: '', text: "Stunning architecture and impeccable service. We will definitely be coming back next year." },
         ],
     },
     // ── CTA Banner ────────────────────────────────────────────
