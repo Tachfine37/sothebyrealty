@@ -294,7 +294,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                                                 {/* Price */}
                                                 <div className="absolute bottom-4 left-4 text-white font-medium text-[20px]">
-                                                    {p.price ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(p.price) : 'Price on demand'}
+                                                    Price on demand
                                                 </div>
                                             </div>
 
