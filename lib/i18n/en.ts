@@ -94,6 +94,10 @@ export const en: Translations = {
             { name: 'Aisha Khan', title: '', text: "The location was peaceful and private. Waking up to the ocean view every morning was unforgettable." },
             { name: 'Michel Barabel', title: '', text: "Beautifully decorated and very clean. Minor noise from nearby construction, but overall a fantastic experience." },
             { name: 'Maud Xavier', title: '', text: "Beautiful property and very quiet, perfect for a relaxing retreat. Only minor issue was the parking, but otherwise flawless." },
+            { name: 'Daniel Bouheret', title: '', text: "From sunrise by the pool to candlelit evenings, every moment felt carefully curated. Not just a stay, an experience." },
+            { name: 'Estelle Plin', title: '', text: "A hidden gem where modern luxury meets timeless tranquility. Each corner tells a story of comfort and elegance." },
+            { name: 'Jean Dupont', title: '', text: "An absolute marvel. The concierge service was flawless and the amenities were beyond our expectations." },
+            { name: 'Marie Leroy', title: '', text: "Stunning architecture and impeccable service. We will definitely be coming back next year." },
         ],
     },
     // ── CTA Banner ────────────────────────────────────────────
