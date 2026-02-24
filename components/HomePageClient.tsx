@@ -127,7 +127,7 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                                     <div className="w-12 h-12 rounded-full bg-gray-200 mx-auto mb-3 overflow-hidden shadow-sm">
                                         {/* Since images provided are distinct people, map some IDs so they stay constant */}
                                         <Image
-                                            src={`https://i.pravatar.cc/150?u=${testimonial.name.replace(/\s+/g, '')}`}
+                                            src={testimonial.name === 'Aisha Khan' ? 'https://i.pravatar.cc/150?img=5' : `https://i.pravatar.cc/150?u=${testimonial.name.replace(/\s+/g, '')}`}
                                             alt={testimonial.name}
                                             width={48}
                                             height={48}
