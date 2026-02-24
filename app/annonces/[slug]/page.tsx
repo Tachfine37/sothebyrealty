@@ -57,7 +57,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             id: { not: property.id },
         },
         include: { images: { orderBy: { order: 'asc' } } },
-        take: 3,
+        take: 4,
         orderBy: { createdAt: 'desc' },
     });
 
@@ -263,6 +263,81 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                             <AvailabilityCalendar propertyId={property.id} />
                         </section>
 
+                        {/* Similar Properties */}
+                        {similarProperties.length > 0 && (
+                            <section className="mt-12 pt-12 border-t border-gray-200">
+                                <h2 className="text-[18px] font-semibold text-luxury-black mb-6">Similar listings</h2>
+                                <div className="flex flex-col gap-5">
+                                    {similarProperties.map((p: any) => (
+                                        <Link href={`/annonces/${p.slug}`} key={p.id} className="flex flex-col sm:flex-row bg-white rounded-xl overflow-hidden border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow group">
+                                            {/* Image Section */}
+                                            <div className="relative w-full sm:w-[320px] h-[220px] shrink-0">
+                                                {p.images?.[0] ? (
+                                                    <Image
+                                                        src={p.images[0].url}
+                                                        alt={p.title}
+                                                        fill
+                                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full bg-gray-200" />
+                                                )}
+                                                {/* Gradient overlay for text */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                                                {/* Featured Badge */}
+                                                {p.featured && (
+                                                    <div className="absolute top-4 left-4 bg-[#1e1e1e] text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-sm">
+                                                        Featured
+                                                    </div>
+                                                )}
+
+                                                {/* Price */}
+                                                <div className="absolute bottom-4 left-4 text-white font-medium text-[20px]">
+                                                    {p.price ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(p.price) : 'Price on demand'}
+                                                </div>
+                                            </div>
+
+                                            {/* Details Section */}
+                                            <div className="flex-1 p-6 flex flex-col justify-between">
+                                                <div>
+                                                    <h3 className="text-[17px] font-bold text-[#1a1a1a] mb-1 group-hover:text-luxury-black transition-colors">{p.title}</h3>
+                                                    <p className="text-[13px] text-gray-400 mb-4 line-clamp-1">{p.address ? `${p.address}, ` : ''}{p.city}</p>
+
+                                                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-gray-500 mb-2">
+                                                        <span className="flex items-center gap-2">
+                                                            <svg className="w-[18px] h-[18px] text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                                                            {p.bedrooms} Bedrooms
+                                                        </span>
+                                                        <span className="flex items-center gap-2">
+                                                            <svg className="w-[18px] h-[18px] text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                                                            {p.bathrooms} Baths
+                                                        </span>
+                                                        <span className="flex items-center gap-2">
+                                                            <svg className="w-[18px] h-[18px] text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                                                            {p.bedrooms * 2} Guests
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-[13px] text-gray-400">{p.type}</p>
+                                                </div>
+
+                                                <div className="flex items-center justify-between mt-6 md:mt-2 pt-0">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center text-[10px] font-bold">
+                                                            S
+                                                        </div>
+                                                        <span className="text-[11px] text-gray-400 leading-tight">Hosted By <br /><span className="text-gray-900 font-semibold text-[12px]">Sotheby Realty</span></span>
+                                                    </div>
+                                                    <button className="text-gray-300 hover:text-gray-500 hover:bg-gray-100 rounded-full p-2 transition-colors">
+                                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                     {/* Sidebar: Availability & Contact */}
@@ -276,17 +351,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     </div>
                 </div>
 
-                {/* Similar Properties */}
-                {similarProperties.length > 0 && (
-                    <div className="mt-16 pt-16 border-t border-gray-200">
-                        <h2 className="text-[26px] font-bold text-luxury-black mb-8">Compare listings</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {similarProperties.map((p: any) => (
-                                <PropertyCard key={p.id} property={p} />
-                            ))}
-                        </div>
-                    </div>
-                )}
+
             </div>
             <Footer />
         </>
