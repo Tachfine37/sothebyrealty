@@ -249,6 +249,100 @@ export default function OurTeamPage() {
                     </div>
                 </div>
 
+                {/* Sales Force Section */}
+                <div className="mb-20">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
+                        <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] font-sans">
+                            Sales force
+                        </h2>
+                        <div className="relative inline-block w-full sm:w-auto">
+                            <select className="w-full sm:w-48 appearance-none bg-white border border-gray-200 text-[#3A4B6B] py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-[#0F2644] cursor-pointer shadow-sm">
+                                <option>All regions</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#3A4B6B]">
+                                <svg className="fill-current h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sales Force Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
+
+                        {/* Julien Schneider */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/julien.jpg"
+                                    alt="Julien Schneider"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Julien Schneider
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                REAL ESTATE AGENT, TRUSTEE
+                            </p>
+                        </div>
+
+                        {/* Surya Ecabert-Cotting */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/surya.jpg"
+                                    alt="Surya Ecabert-Cotting"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Surya Ecabert-Cotting
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                REAL ESTATE AGENT, NEW PROJECT MANAGER, TRUSTEE
+                            </p>
+                        </div>
+
+                        {/* Julie Ogiz */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/julie.jpg"
+                                    alt="Julie Ogiz"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Julie Ogiz
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                REAL ESTATE AGENT, TRUSTEE
+                            </p>
+                        </div>
+
+                        {/* Carole Clément */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/carole.jpg"
+                                    alt="Carole Clément"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Carole Clément
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                REAL ESTATE AGENT, TRUSTEE
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     );
