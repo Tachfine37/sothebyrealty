@@ -165,6 +165,90 @@ export default function OurTeamPage() {
                     </div>
                 </div>
 
+                {/* Service Manager Section */}
+                <div className="mb-20">
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] mb-10 font-sans">
+                        Service Manager
+                    </h2>
+
+                    {/* Service Manager Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
+
+                        {/* Franck Robinet */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/franck.jpg"
+                                    alt="Franck Robinet"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Franck Robinet
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                GENEVA REGIONAL DIRECTOR & ACADEMY
+                            </p>
+                        </div>
+
+                        {/* Nicolas Maillot */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/nicolas.jpg"
+                                    alt="Nicolas Maillot"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Nicolas Maillot
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                WESTERN VAUD REGIONAL DIRECTOR & ACADEMY TRAINER
+                            </p>
+                        </div>
+
+                        {/* Kenny Flückiger */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/kenny.jpg"
+                                    alt="Kenny Flückiger"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Kenny Flückiger
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase leading-tight mt-1">
+                                EASTERN VAUD AND NEUCHÂTEL REGIONAL DIRECTOR &<br />ACADEMY TRAINER
+                            </p>
+                        </div>
+
+                        {/* Isabelle Bauwens */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/isabelle.jpg"
+                                    alt="Isabelle Bauwens"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Isabelle Bauwens
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase leading-tight mt-1">
+                                REGIONAL DIRECTOR FOR FRIBOURG AND VALAIS
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     );
