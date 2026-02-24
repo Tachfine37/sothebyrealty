@@ -55,7 +55,7 @@ function LoginForm() {
                                 type="email"
                                 required
                                 autoComplete="email"
-                                placeholder="admin@sothebyrealty.fr"
+                                placeholder="votre@email.com"
                                 className="w-full bg-white/5 border border-white/10 text-white text-sm px-4 py-3 placeholder-white/20 focus:outline-none focus:border-champagne/50 transition-colors"
                             />
                         </div>
