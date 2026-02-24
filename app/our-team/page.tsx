@@ -81,6 +81,90 @@ export default function OurTeamPage() {
                     </div>
                 </div>
 
+                {/* Directors Section */}
+                <div className="mb-20">
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] mb-10 font-sans">
+                        Directors
+                    </h2>
+
+                    {/* Directors Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
+
+                        {/* Eliano Zaccaria */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/eliano.jpg"
+                                    alt="Eliano Zaccaria"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Eliano Zaccaria
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                CFO, COO & ADMINISTRATOR
+                            </p>
+                        </div>
+
+                        {/* Elisabeth Ribeiro */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/elisabeth.jpg"
+                                    alt="Elisabeth Ribeiro"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Elisabeth Ribeiro
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                HUMAN RESOURCES DIRECTOR
+                            </p>
+                        </div>
+
+                        {/* Stefania Rousseau */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/stefania.jpg"
+                                    alt="Stefania Rousseau"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Stefania Rousseau
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                MARKETING DIRECTOR
+                            </p>
+                        </div>
+
+                        {/* Yoan Patrao */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/yoan.jpg"
+                                    alt="Yoan Patrao"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Yoan Patrao
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                RESALE MANAGER
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     );
