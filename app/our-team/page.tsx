@@ -26,7 +26,7 @@ export default function OurTeamPage() {
 
                         {/* Luca Tagliaboschi */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
                                     src="/images/team/luca.jpg"
                                     alt="Luca Tagliaboschi"
@@ -44,7 +44,7 @@ export default function OurTeamPage() {
 
                         {/* Alexandre Baechler */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
                                     src="/images/team/alexandre.jpg"
                                     alt="Alexandre Baechler"
@@ -62,7 +62,7 @@ export default function OurTeamPage() {
 
                         {/* Eliano Zaccaria */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
                                     src="/images/team/eliano.jpg"
                                     alt="Eliano Zaccaria"
@@ -92,7 +92,7 @@ export default function OurTeamPage() {
 
                         {/* Eliano Zaccaria */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
                                     src="/images/team/eliano.jpg"
                                     alt="Eliano Zaccaria"
@@ -110,9 +110,9 @@ export default function OurTeamPage() {
 
                         {/* Elisabeth Ribeiro */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
-                                    src="/images/team/elisabeth.jpg"
+                                    src="/images/team/stefania.jpg"
                                     alt="Elisabeth Ribeiro"
                                     fill
                                     className="object-cover object-top"
@@ -128,9 +128,9 @@ export default function OurTeamPage() {
 
                         {/* Stefania Rousseau */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
-                                    src="/images/team/stefania.jpg"
+                                    src="/images/team/elisabeth.jpg"
                                     alt="Stefania Rousseau"
                                     fill
                                     className="object-cover object-top"
@@ -146,7 +146,7 @@ export default function OurTeamPage() {
 
                         {/* Yoan Patrao */}
                         <div className="flex flex-col">
-                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                            <div className="w-full aspect-[4/5] relative mb-4 overflow-hidden bg-gray-100">
                                 <Image
                                     src="/images/team/yoan.jpg"
                                     alt="Yoan Patrao"
