@@ -118,7 +118,7 @@ export default function LoginPage() {
             <div className="px-8 py-6 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3 group">
                     <span className="font-serif text-xl text-luxury-black tracking-widest">SOTHEBY REALTY</span>
-                    <span className="text-[10px] tracking-[0.25em] uppercase text-luxury-muted group-hover:text-champagne transition-colors">France</span>
+                    <span className="text-[10px] tracking-[0.25em] uppercase text-luxury-muted group-hover:text-champagne transition-colors"></span>
                 </Link>
                 <Link href="/" className="text-xs text-luxury-muted hover:text-champagne transition-colors flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>

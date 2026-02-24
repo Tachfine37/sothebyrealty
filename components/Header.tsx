@@ -48,7 +48,7 @@ export default function Header() {
                                 Sotheby&apos;s
                             </span>
                             <span className="text-[8.5px] font-light tracking-[0.28em] uppercase text-white/70 mt-[1px] transition-opacity group-hover:opacity-80">
-                                INTERNATIONAL REALTY — France
+                                INTERNATIONAL REALTY
                             </span>
                         </Link>
 

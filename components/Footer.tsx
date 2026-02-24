@@ -14,7 +14,7 @@ export default function Footer() {
                     <div className="flex flex-col">
                         <Link href="/" className="block mb-4 no-underline group">
                             <span className="font-serif text-2xl tracking-[0.2em] uppercase text-black group-hover:text-[#C9A84C] transition-colors">SOTHEBY REALTY</span>
-                            <span className="block text-[10px] font-medium tracking-[0.25em] uppercase text-black/40 mt-1 group-hover:text-black/60 transition-colors">France · Prestige & Excellence</span>
+                            <span className="block text-[10px] font-medium tracking-[0.25em] uppercase text-black/40 mt-1 group-hover:text-black/60 transition-colors">Prestige & Excellence</span>
                         </Link>
                         <p className="text-[#374151] text-sm font-medium mb-12 italic">
                             {t.footer.tagline}
