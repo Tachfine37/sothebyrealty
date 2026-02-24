@@ -251,19 +251,9 @@ export default function OurTeamPage() {
 
                 {/* Sales Force Section */}
                 <div className="mb-20">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] font-sans">
-                            Sales force
-                        </h2>
-                        <div className="relative inline-block w-full sm:w-auto">
-                            <select className="w-full sm:w-48 appearance-none bg-white border border-gray-200 text-[#3A4B6B] py-2 pl-4 pr-10 text-sm focus:outline-none focus:border-[#0F2644] cursor-pointer shadow-sm">
-                                <option>All regions</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#3A4B6B]">
-                                <svg className="fill-current h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] mb-10 font-sans">
+                        Sales force
+                    </h2>
 
                     {/* Sales Force Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
