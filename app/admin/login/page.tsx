@@ -78,10 +78,6 @@ function LoginForm() {
                             {loading ? 'Connexion…' : 'Se Connecter'}
                         </button>
                     </form>
-
-                    <p className="text-center text-[10px] text-white/20 mt-6">
-                        Identifiants par défaut: <span className="text-white/40">admin@sothebyrealty.fr</span> / <span className="text-white/40">admin123</span>
-                    </p>
                 </div>
             </div>
         </div>
