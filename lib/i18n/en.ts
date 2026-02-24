@@ -13,6 +13,7 @@ export const en: Translations = {
         register: 'Sign Up',
         admin: 'Administration',
         logout: 'Sign Out',
+        ourTeam: 'Our team',
         listingTypes: {
             villas: 'Luxury Villas',
             apartments: 'Prestige Apartments',

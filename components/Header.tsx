@@ -27,6 +27,7 @@ export default function Header() {
     const navItems = [
         { label: t.nav.home, href: '/' },
         { label: t.nav.listings, href: '/annonces' },
+        { label: t.nav.ourTeam, href: '/our-team' },
         { label: t.nav.faq, href: '/faq' },
         { label: t.nav.about, href: '/a-propos' },
         { label: t.nav.contactUs, href: '/contact' },

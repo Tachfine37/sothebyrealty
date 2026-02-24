@@ -1,0 +1,87 @@
+import Image from 'next/image';
+
+export default function OurTeamPage() {
+    return (
+        <main className="min-h-screen bg-white pt-24 pb-20">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12">
+
+                {/* Header Section */}
+                <div className="mb-16">
+                    <h1 className="text-4xl md:text-5xl font-bold text-[#0F2644] mb-6 font-sans">
+                        Our team
+                    </h1>
+                    <p className="text-xl md:text-2xl text-[#3A4B6B] font-serif max-w-2xl leading-relaxed">
+                        We are at your entire disposal to sell or find your property
+                    </p>
+                </div>
+
+                {/* Board of Directors Section */}
+                <div className="mb-12">
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#0F2644] mb-10 font-sans">
+                        Board of Directors
+                    </h2>
+
+                    {/* Team Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 gap-y-12">
+
+                        {/* Luca Tagliaboschi */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/luca.jpg"
+                                    alt="Luca Tagliaboschi"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Luca Tagliaboschi
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                CO-FOUNDER, PRESIDENT & CEO
+                            </p>
+                        </div>
+
+                        {/* Alexandre Baechler */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/alexandre.jpg"
+                                    alt="Alexandre Baechler"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Alexandre Baechler
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                CO-FOUNDER, ADMINISTRATOR & DIRECTOR
+                            </p>
+                        </div>
+
+                        {/* Eliano Zaccaria */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-square relative mb-4 overflow-hidden bg-gray-100">
+                                <Image
+                                    src="/images/team/eliano.jpg"
+                                    alt="Eliano Zaccaria"
+                                    fill
+                                    className="object-cover object-top"
+                                />
+                            </div>
+                            <h3 className="text-[#3A4B6B] text-lg font-serif mb-1">
+                                Eliano Zaccaria
+                            </h3>
+                            <p className="text-[#6B7280] text-[10px] tracking-widest uppercase">
+                                CFO, COO & ADMINISTRATOR
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    );
+}

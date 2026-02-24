@@ -11,6 +11,7 @@ export const fr = {
         register: "S'inscrire",
         admin: 'Administration',
         logout: 'Déconnexion',
+        ourTeam: 'Notre équipe',
         listingTypes: {
             villas: 'Villas de luxe',
             apartments: 'Appartements prestige',
