@@ -32,9 +32,20 @@ export async function POST(request: NextRequest) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Use SERVICE_ROLE_KEY to bypass RLS for uploads (since we already verified admin)
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+        if (!supabaseUrl) {
+            return NextResponse.json({ error: 'Missing NEXT_PUBLIC_SUPABASE_URL' }, { status: 500 });
+        }
+
+        const supabaseKey = serviceKey || anonKey;
+        if (!supabaseKey) {
+            return NextResponse.json({ error: 'Missing Supabase key (no SERVICE_ROLE_KEY or ANON_KEY)' }, { status: 500 });
+        }
+
+        const usingServiceKey = !!serviceKey;
         const supabase = createClient(supabaseUrl, supabaseKey);
 
         const { data, error } = await supabase.storage
@@ -47,7 +58,12 @@ export async function POST(request: NextRequest) {
 
         if (error) {
             console.error('Supabase upload error:', error);
-            return NextResponse.json({ error: 'Failed to upload to Supabase' }, { status: 500 });
+            return NextResponse.json({
+                error: 'Failed to upload to Supabase',
+                detail: error.message,
+                usingServiceKey,
+                supabaseUrl
+            }, { status: 500 });
         }
 
         // Get public URL
@@ -58,6 +74,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ url: urlData.publicUrl, filename });
     } catch (error) {
         console.error('[POST /api/upload]', error);
-        return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+        return NextResponse.json({ error: 'Upload failed', detail: String(error) }, { status: 500 });
     }
 }
