@@ -145,7 +145,7 @@ export default function HomePageClient({
                         {testimonialItems.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial) => (
                             <div key={testimonial.id} className="flex flex-col items-center h-full">
                                 {/* Speech Bubble */}
-                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex flex-col justify-center flex-grow">
+                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex flex-col justify-start flex-grow">
                                     <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans mt-2">
                                         {testimonial.text}
                                     </p>
