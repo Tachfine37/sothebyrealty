@@ -141,9 +141,9 @@ export default function HomePageClient({
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 pb-8 sm:pb-0 scrollbar-hidden -mx-6 px-6 sm:mx-0 sm:px-0">
                         {testimonialItems.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial) => (
-                            <div key={testimonial.id} className="flex flex-col items-center h-full">
+                            <div key={testimonial.id} className="flex-none w-[85%] sm:w-auto snap-center flex flex-col items-center h-full">
                                 {/* Speech Bubble */}
                                 <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex flex-col justify-start flex-grow">
                                     <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans mt-2">
@@ -184,11 +184,14 @@ export default function HomePageClient({
                     </div>
 
                     {/* Pagination Dots */}
-                    <div className="flex justify-center gap-2 mt-16">
+                    <div className="flex justify-center gap-3 mt-12 sm:mt-16">
                         {Array.from({ length: Math.ceil(testimonialItems.length / 4) }).map((_, i) => (
-                            <span
+                            <button
                                 key={i}
-                                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === testiPage ? 'bg-[#374151]' : 'bg-gray-300'}`}
+                                type="button"
+                                onClick={() => setTestiPage(i)}
+                                aria-label={`Aller à la page ${i + 1} des avis`}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${i === testiPage ? 'bg-[#374151] scale-125' : 'bg-gray-300 hover:bg-gray-400'}`}
                             />
                         ))}
                     </div>
