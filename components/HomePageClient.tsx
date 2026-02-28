@@ -143,9 +143,9 @@ export default function HomePageClient({
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
                         {testimonialItems.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial) => (
-                            <div key={testimonial.id} className="flex flex-col items-center">
+                            <div key={testimonial.id} className="flex flex-col items-center h-full">
                                 {/* Speech Bubble */}
-                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex items-center justify-center">
+                                <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex flex-col justify-center flex-grow">
                                     <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans mt-2">
                                         {testimonial.text}
                                     </p>
@@ -154,7 +154,7 @@ export default function HomePageClient({
                                 </div>
 
                                 {/* Avatar & Name */}
-                                <div className="text-center mt-2">
+                                <div className="text-center mt-auto">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 mx-auto mb-3 overflow-hidden shadow-sm">
                                         {testimonial.image ? (
                                             // eslint-disable-next-line @next/next/no-img-element
