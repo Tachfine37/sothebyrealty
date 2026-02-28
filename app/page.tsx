@@ -37,12 +37,18 @@ const homeJsonLd = {
 };
 
 export default async function HomePage() {
-    const featuredProperties = await prisma.property.findMany({
-        where: { featured: true, published: true },
-        include: { images: { orderBy: { order: 'asc' } } },
-        take: 6,
-        orderBy: { createdAt: 'desc' },
-    });
+    const [featuredProperties, dbTestimonials] = await Promise.all([
+        prisma.property.findMany({
+            where: { featured: true, published: true },
+            include: { images: { orderBy: { order: 'asc' } } },
+            take: 6,
+            orderBy: { createdAt: 'desc' },
+        }),
+        prisma.testimonial.findMany({
+            where: { published: true },
+            orderBy: { order: 'asc' },
+        }),
+    ]);
 
     return (
         <>
@@ -51,7 +57,7 @@ export default async function HomePage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
             />
             <Header />
-            <HomePageClient featuredProperties={featuredProperties} />
+            <HomePageClient featuredProperties={featuredProperties} dbTestimonials={dbTestimonials} />
             <Footer />
         </>
     );

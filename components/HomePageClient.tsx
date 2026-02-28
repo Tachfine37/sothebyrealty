@@ -10,6 +10,17 @@ import { Prisma } from '@prisma/client';
 
 type PropertyWithImages = Prisma.PropertyGetPayload<{ include: { images: true } }>;
 
+type DbTestimonial = {
+    id: string;
+    name: string;
+    title: string;
+    text: string;
+    image: string | null;
+    stars: number;
+    order: number;
+    published: boolean;
+};
+
 const DESTINATION_SLUGS = [
     { slug: 'cote-dazur', count: 218, descFr: "Nice, Cannes, Saint-Tropez, Monaco", descEn: "Nice, Cannes, Saint-Tropez, Monaco" },
     { slug: 'paris', count: 154, descFr: "Immeubles haussmanniens & hôtels particuliers", descEn: "Haussmann buildings & private mansions" },
@@ -24,9 +35,29 @@ const WHY_ICONS = [
     'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
 ];
 
-export default function HomePageClient({ featuredProperties }: { featuredProperties: PropertyWithImages[] }) {
+export default function HomePageClient({
+    featuredProperties,
+    dbTestimonials = [],
+}: {
+    featuredProperties: PropertyWithImages[];
+    dbTestimonials?: DbTestimonial[];
+}) {
     const { t, lang } = useTranslations();
     const [testiPage, setTestiPage] = useState(0);
+
+    // Use DB testimonials if available, otherwise fall back to i18n
+    const testimonialItems = dbTestimonials.length > 0
+        ? dbTestimonials
+        : t.testimonials.items.map((item, i) => ({
+            id: String(i),
+            name: item.name,
+            title: item.title ?? '',
+            text: item.text,
+            image: null as string | null,
+            stars: 5,
+            order: i,
+            published: true,
+        }));
 
     const destinations = DESTINATION_SLUGS.map((d) => ({
         ...d,
@@ -102,8 +133,8 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                         </button>
                         <button
                             type="button"
-                            onClick={() => setTestiPage(p => Math.min(Math.ceil(t.testimonials.items.length / 4) - 1, p + 1))}
-                            disabled={testiPage >= Math.ceil(t.testimonials.items.length / 4) - 1}
+                            onClick={() => setTestiPage(p => Math.min(Math.ceil(testimonialItems.length / 4) - 1, p + 1))}
+                            disabled={testiPage >= Math.ceil(testimonialItems.length / 4) - 1}
                             className="px-3 py-1 border border-[#DDA15E]/60 text-[#DDA15E] text-xs font-medium rounded-[2px] hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Next
@@ -111,8 +142,8 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-                        {t.testimonials.items.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial, idx) => (
-                            <div key={testimonial.name} className="flex flex-col items-center">
+                        {testimonialItems.slice(testiPage * 4, (testiPage + 1) * 4).map((testimonial) => (
+                            <div key={testimonial.id} className="flex flex-col items-center">
                                 {/* Speech Bubble */}
                                 <div className="relative bg-white border border-gray-100 rounded-sm shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] p-6 mb-8 w-full text-center min-h-[160px] flex items-center justify-center">
                                     <p className="text-[13px] text-[#6B7280] leading-relaxed font-sans mt-2">
@@ -125,17 +156,28 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
                                 {/* Avatar & Name */}
                                 <div className="text-center mt-2">
                                     <div className="w-12 h-12 rounded-full bg-gray-200 mx-auto mb-3 overflow-hidden shadow-sm">
-                                        {/* Since images provided are distinct people, map some IDs so they stay constant */}
-                                        <Image
-                                            src={testimonial.name === 'Aisha Khan' ? 'https://i.pravatar.cc/150?img=5' : `https://i.pravatar.cc/150?u=${testimonial.name.replace(/\s+/g, '')}`}
-                                            alt={testimonial.name}
-                                            width={48}
-                                            height={48}
-                                            className="w-full h-full object-cover"
-                                            unoptimized
-                                        />
+                                        {testimonial.image ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <Image
+                                                src={testimonial.name === 'Aisha Khan' ? 'https://i.pravatar.cc/150?img=5' : `https://i.pravatar.cc/150?u=${testimonial.name.replace(/\s+/g, '')}`}
+                                                alt={testimonial.name}
+                                                width={48}
+                                                height={48}
+                                                className="w-full h-full object-cover"
+                                                unoptimized
+                                            />
+                                        )}
                                     </div>
                                     <h4 className="text-[14px] font-bold text-[#374151] font-sans">{testimonial.name}</h4>
+                                    {testimonial.title && <p className="text-xs text-gray-400 mt-0.5">{testimonial.title}</p>}
+                                    {/* Stars */}
+                                    <div className="flex justify-center gap-0.5 mt-1">
+                                        {[1, 2, 3, 4, 5].map(s => (
+                                            <span key={s} className={`text-sm ${s <= testimonial.stars ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -143,7 +185,7 @@ export default function HomePageClient({ featuredProperties }: { featuredPropert
 
                     {/* Pagination Dots */}
                     <div className="flex justify-center gap-2 mt-16">
-                        {Array.from({ length: Math.ceil(t.testimonials.items.length / 4) }).map((_, i) => (
+                        {Array.from({ length: Math.ceil(testimonialItems.length / 4) }).map((_, i) => (
                             <span
                                 key={i}
                                 className={`w-1.5 h-1.5 rounded-full transition-colors ${i === testiPage ? 'bg-[#374151]' : 'bg-gray-300'}`}
