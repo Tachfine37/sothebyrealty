@@ -45,6 +45,8 @@ export default function HomePageClient({
     const { t, lang } = useTranslations();
     const [testiPage, setTestiPage] = useState(0);
 
+    const [featuredPage, setFeaturedPage] = useState(0);
+
     // Use DB testimonials if available, otherwise fall back to i18n
     const testimonialItems = dbTestimonials.length > 0
         ? dbTestimonials
@@ -68,7 +70,6 @@ export default function HomePageClient({
     return (
         <>
 
-
             {/* ── BOOKING HERO ──────────────────────────────── */}
             <BookingHero />
 
@@ -83,24 +84,48 @@ export default function HomePageClient({
                             <p className="text-gray-500 text-sm font-sans">Hand-picked selection of quality places</p>
                         </div>
                         <div className="flex gap-2">
-                            <button type="button" className="px-4 py-1.5 border border-[#DDA15E]/60 text-[#DDA15E] text-sm rounded-sm hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50">Prev</button>
-                            <button type="button" className="px-4 py-1.5 border border-[#DDA15E]/60 text-[#DDA15E] text-sm rounded-sm hover:bg-[#DDA15E] hover:text-white transition-colors">Next</button>
+                            <button
+                                type="button"
+                                onClick={() => setFeaturedPage(p => Math.max(0, p - 1))}
+                                disabled={featuredPage === 0}
+                                className="px-4 py-1.5 border border-[#DDA15E]/60 text-[#DDA15E] text-sm rounded-sm hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Prev
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setFeaturedPage(p => Math.min(Math.ceil(featuredProperties.length / 3) - 1, p + 1))}
+                                disabled={featuredPage >= Math.ceil(featuredProperties.length / 3) - 1}
+                                className="px-4 py-1.5 border border-[#DDA15E]/60 text-[#DDA15E] text-sm rounded-sm hover:bg-[#DDA15E] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Next
+                            </button>
                         </div>
                     </div>
                     {featuredProperties.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {featuredProperties.map((property) => (
-                                    <PropertyCard key={property.id} property={property} />
+                            <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 md:pb-0 scrollbar-hidden -mx-6 px-6 md:mx-0 md:px-0">
+                                {featuredProperties.slice(featuredPage * 3, (featuredPage + 1) * 3).map((property) => (
+                                    <div key={property.id} className="flex-none w-[85%] md:w-auto snap-center h-full">
+                                        <PropertyCard property={property} />
+                                    </div>
                                 ))}
                             </div>
-                            <div className="flex justify-center gap-2 mt-8">
-                                <span className="w-1.5 h-1.5 rounded-full bg-gray-600"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                            </div>
+
+                            {/* Pagination Dots */}
+                            {Math.ceil(featuredProperties.length / 3) > 1 && (
+                                <div className="flex justify-center gap-3 mt-8 md:mt-12">
+                                    {Array.from({ length: Math.ceil(featuredProperties.length / 3) }).map((_, i) => (
+                                        <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => setFeaturedPage(i)}
+                                            aria-label={`Aller à la page ${i + 1} des annonces à la une`}
+                                            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === featuredPage ? 'bg-[#374151] scale-125' : 'bg-gray-300 hover:bg-gray-400'}`}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </>
                     ) : (
                         <div className="text-center py-20 text-gray-400">
