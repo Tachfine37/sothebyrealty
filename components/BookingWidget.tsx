@@ -9,6 +9,7 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
     const [date, setDate] = useState<DateRange | undefined>();
     const [showCalendar, setShowCalendar] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
+    const [isAvailabilityChecked, setIsAvailabilityChecked] = useState(false);
     const [whatsappNumber, setWhatsappNumber] = useState('');
     const [whatsappDefaultMessage, setWhatsappDefaultMessage] = useState('');
 
@@ -22,7 +23,7 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
             .catch(() => { });
     }, []);
 
-    function handleRequestToBook() {
+    const handleRequestToBook = () => {
         const number = whatsappNumber || '33600000000'; // fallback
         const checkIn = date?.from ? format(date.from, 'dd/MM/yyyy') : '';
         const checkOut = date?.to ? format(date.to, 'dd/MM/yyyy') : '';
@@ -32,7 +33,12 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
         if (checkOut) message += `\nDépart : ${checkOut}`;
         const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
         window.open(url, '_blank');
-    }
+    };
+
+    // Reset availability check if dates change
+    useEffect(() => {
+        setIsAvailabilityChecked(false);
+    }, [date]);
 
     const nights = date?.from && date?.to ? Math.max(0, differenceInDays(date.to, date.from)) : 0;
     const total = nights * price;
@@ -55,9 +61,17 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
                 <span className="text-2xl font-bold text-luxury-black">Price on demand</span>
             </div>
 
-
-
-
+            {/* Availability Banner - Top Position */}
+            {date?.from && date?.to && isAvailabilityChecked && (
+                <div className="mb-4 border border-[#8DC63F] rounded-lg p-4 text-center bg-[#f2f9eb] shadow-sm">
+                    <p className="text-[#8DC63F] font-bold text-[15px] flex items-center justify-center gap-2">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Your dates are available!
+                    </p>
+                </div>
+            )}
 
             <form action="/api/contact" method="post" className="flex flex-col gap-4">
                 <div className="flex gap-4 relative">
@@ -125,16 +139,15 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
                     )}
                 </div>
 
-                {/* Availability Banner - Moved here */}
-                {date?.from && date?.to && (
-                    <div className="border border-[#8DC63F] rounded-lg p-4 text-center bg-[#f2f9eb] shadow-sm">
-                        <p className="text-[#8DC63F] font-bold text-[15px] flex items-center justify-center gap-2">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                            Your dates are available!
-                        </p>
-                    </div>
+                {/* Validation Button shown when dates are selected but not validated yet */}
+                {date?.from && date?.to && !isAvailabilityChecked && (
+                    <button
+                        type="button"
+                        onClick={() => setIsAvailabilityChecked(true)}
+                        className="w-full bg-luxury-black hover:bg-gray-800 text-white font-bold text-[15px] py-3 rounded-lg transition-colors mt-2"
+                    >
+                        Check Availability
+                    </button>
                 )}
 
                 {/* Guests Field */}
