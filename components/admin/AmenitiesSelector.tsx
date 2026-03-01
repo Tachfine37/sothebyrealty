@@ -3,29 +3,29 @@
 import { useState } from 'react';
 
 const STANDARD_AMENITIES = [
-    'Piscine à débordement',
-    'Piscine intérieure',
-    'Piscine chauffée',
+    'Infinity Pool',
+    'Indoor Pool',
+    'Heated Pool',
     'Hammam',
     'Sauna',
     'Jacuzzi',
     'Ski-in/Ski-out',
-    'Salle de sport',
-    'Salle de cinéma',
-    'Cave à vin',
-    'Cheminée',
-    'Ascenseur',
-    'Climatisation',
-    'Vue panoramique',
-    'Vue mer',
-    'Jardin privatif',
-    'Terrasse',
-    'Parking privatif',
-    'Garage fermé',
-    'Système domotique',
-    'Sécurité 24/7',
-    'Héliport',
-    'Personnel inclus'
+    'Gym',
+    'Home Cinema',
+    'Wine Cellar',
+    'Fireplace',
+    'Elevator',
+    'Air Conditioning',
+    'Panoramic View',
+    'Sea View',
+    'Private Garden',
+    'Terrace',
+    'Private Parking',
+    'Closed Garage',
+    'Smart Home System',
+    '24/7 Security',
+    'Helipad',
+    'Staff Included'
 ];
 
 interface Props {
@@ -73,8 +73,8 @@ export default function AmenitiesSelector({ initialAmenities }: Props) {
                         <label
                             key={amenity}
                             className={`flex items-center gap-3 p-3 border rounded-sm cursor-pointer transition-colors ${isSelected
-                                    ? 'border-champagne bg-champagne/5'
-                                    : 'border-gray-200 hover:border-champagne/40 bg-white'
+                                ? 'border-champagne bg-champagne/5'
+                                : 'border-gray-200 hover:border-champagne/40 bg-white'
                                 }`}
                         >
                             <input
