@@ -37,8 +37,19 @@ export const metadata: Metadata = {
         locale: 'fr_FR',
         siteName: 'Sotheby Realty France',
         url: process.env.NEXTAUTH_URL ?? 'http://localhost:3000',
+        images: [
+            {
+                url: '/og-home.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Sotheby Realty France',
+            },
+        ],
     },
-    twitter: { card: 'summary_large_image' },
+    twitter: {
+        card: 'summary_large_image',
+        images: ['/og-home.jpg'],
+    },
     robots: { index: true, follow: true },
 };
 
