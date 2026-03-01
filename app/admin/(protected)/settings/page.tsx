@@ -64,10 +64,17 @@ export default function SettingsPage() {
             if (res.ok) {
                 setSuccessMsg('Settings saved successfully.');
             } else {
-                setErrorMsg('Failed to save settings.');
+                let errorDetails = '';
+                try {
+                    const data = await res.json();
+                    errorDetails = data.error || JSON.stringify(data);
+                } catch {
+                    errorDetails = await res.text();
+                }
+                setErrorMsg(`Failed to save settings (Status ${res.status}): ${errorDetails}`);
             }
-        } catch (err) {
-            setErrorMsg('An error occurred while saving settings.');
+        } catch (err: any) {
+            setErrorMsg(`An exact error occurred while saving: ${err.message || String(err)}`);
         } finally {
             setSaving(false);
         }
