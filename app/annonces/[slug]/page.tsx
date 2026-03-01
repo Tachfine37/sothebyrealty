@@ -62,6 +62,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         orderBy: { createdAt: 'desc' },
     });
 
+    const parsedAmenities = parseAmenities(property.amenities);
+
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'RealEstateListing',
@@ -87,7 +89,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             value: property.surface,
             unitCode: 'MTK',
         },
-        amenityFeature: parseAmenities(property.amenities).map((a: string) => ({
+        amenityFeature: parsedAmenities.map((a: string) => ({
             '@type': 'LocationFeatureSpecification',
             name: a,
             value: true,
@@ -165,19 +167,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                         {/* Features */}
                         <section className="mb-12 pb-12 border-b border-gray-200 bg-[#f8f9fa] -mx-6 px-6 sm:-mx-12 sm:px-12 py-12 rounded-2xl">
-                            <h3 className="text-xl font-bold text-luxury-black mb-8">Features</h3>
+                            <h3 className="text-xl font-bold text-luxury-black mb-8">Prestations</h3>
 
-                            {/* Amenities */}
-                            <div className="mb-10">
-                                <h4 className="text-[15px] font-bold text-luxury-black mb-6">Amenities</h4>
+                            {parsedAmenities.length > 0 ? (
                                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-[15px] text-gray-600">
-                                    {[
-                                        'Air Conditioning', 'Microwave',
-                                        'Barbecue Area', 'Sauna',
-                                        'Dishwasher', 'Swimming Pool',
-                                        'Gym', 'TV Cable',
-                                        'Laundry', 'Wi-Fi'
-                                    ].map((amenity) => (
+                                    {parsedAmenities.map((amenity: string) => (
                                         <li key={amenity} className="flex items-center gap-4">
                                             <svg className="w-4 h-4 text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -186,26 +180,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-
-                            {/* Facilities */}
-                            <div>
-                                <h4 className="text-[15px] font-bold text-luxury-black mb-6">Facilities</h4>
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-[15px] text-gray-600">
-                                    {[
-                                        'Free Parking', 'Reception',
-                                        'Markets', 'Security',
-                                        'Playground'
-                                    ].map((facility) => (
-                                        <li key={facility} className="flex items-center gap-4">
-                                            <svg className="w-4 h-4 text-gray-400 stroke-[1.5px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                            <span className="font-light">{facility}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            ) : (
+                                <p className="text-[15px] text-gray-500 italic">
+                                    Aucune prestation n&apos;a été renseignée pour cette propriété.
+                                </p>
+                            )}
                         </section>
 
                         {/* Terms & rules */}
