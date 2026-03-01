@@ -161,7 +161,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                             <h3 className="text-xl font-bold text-luxury-black mb-6">Prices</h3>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-[15px] text-gray-700">
                                 <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> night: <span className="font-medium ml-2">Price on demand</span></li>
-                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Allow additional guests: <span className="font-medium ml-2">No</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Allow additional guests: <span className="font-medium ml-2">Yes</span></li>
                             </ul>
                         </section>
 
