@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/adminCheck';
 
 // Helper to get or create the singleton settings record
 async function getSettings() {
@@ -33,25 +33,10 @@ export async function GET() {
     }
 }
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
     try {
-        // Protect the API route: only authenticated users (admins) can update settings
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-
-        if (!user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-        if (!profile || profile.role !== 'admin') {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
+        const { error } = await requireAdmin(request);
+        if (error) return error;
 
         const body = await request.json();
         const { whatsappEnabled, whatsappNumber, whatsappMessage, whatsappPosition } = body;
