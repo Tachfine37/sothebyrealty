@@ -10,10 +10,7 @@ import 'react-day-picker/dist/style.css';
 type DateStatus = 'available' | 'pending' | 'booked';
 
 const getMockStatus = (date: Date): DateStatus => {
-    const day = date.getDate();
-    // Deterministic mock generation based on the day of the month
-    if (day % 7 === 0 || day % 7 === 1) return 'booked';
-    if (day % 13 === 0) return 'pending';
+    // Return available for all future dates by default until the backend calendar logic is fully implemented
     return 'available';
 };
 
