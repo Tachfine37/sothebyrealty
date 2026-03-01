@@ -200,41 +200,42 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                         {/* Map */}
                         {(() => {
-                            // Fallback coordinates based on destination or city
-                            const DESTINATION_COORDS: Record<string, { lat: number, lng: number }> = {
-                                'courchevel': { lat: 45.4162, lng: 6.6341 },
-                                'paris': { lat: 48.8566, lng: 2.3522 },
-                                'cote-dazur': { lat: 43.2677, lng: 6.6407 }, // St Tropez roughly
-                                'alpes': { lat: 45.4162, lng: 6.6341 },
-                                'bordeaux': { lat: 44.8378, lng: -0.5792 },
-                                'provence': { lat: 43.7667, lng: 5.2167 }, // Luberon roughly
-                                'verbier': { lat: 46.0968, lng: 7.2286 },
-                                'zermatt': { lat: 46.0207, lng: 7.7491 },
-                                'st-moritz': { lat: 46.4908, lng: 9.8355 },
-                            };
+                            // Build the best-available search query for the map
+                            let mapQuery = '';
+                            if (property.address) {
+                                // Use full address if available
+                                mapQuery = `${property.address}, ${property.city}`;
+                            } else if (property.city) {
+                                // Fall back to city
+                                mapQuery = property.city;
+                            } else if (property.destination) {
+                                // Last resort: destination slug humanized
+                                mapQuery = property.destination;
+                            }
 
-                            const mapLat = property.latitude || DESTINATION_COORDS[property.destination?.toLowerCase()]?.lat;
-                            const mapLng = property.longitude || DESTINATION_COORDS[property.destination?.toLowerCase()]?.lng;
+                            if (!mapQuery) return null;
 
-                            if (!mapLat || !mapLng) return null;
+                            const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+                            const isExactAddress = !!property.address;
 
                             return (
                                 <section className="mb-12 pb-12 border-b border-gray-200">
                                     <h3 className="text-xl font-bold text-luxury-black mb-6">Location</h3>
                                     <div className="h-[400px] w-full rounded-2xl overflow-hidden bg-gray-100 relative">
                                         <iframe
-                                            src={`https://www.openstreetmap.org/export/embed.html?bbox=${mapLng - 0.01},${mapLat - 0.008},${mapLng + 0.01},${mapLat + 0.008}&layer=mapnik&marker=${mapLat},${mapLng}`}
+                                            src={mapSrc}
                                             className="w-full h-full border-0"
                                             title={`Localisation – ${property.title}`}
                                             loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
                                         />
-                                        <div className="absolute bottom-2 right-2 flex flex-col gap-1 items-end pointer-events-none">
-                                            {(!property.latitude && !property.longitude) && (
+                                        {!isExactAddress && (
+                                            <div className="absolute bottom-2 right-2 pointer-events-none">
                                                 <span className="bg-white/80 backdrop-blur-sm text-[10px] text-gray-500 px-2 py-1 rounded shadow-sm">
                                                     General destination location
                                                 </span>
-                                            )}
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </section>
                             );
