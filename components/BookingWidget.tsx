@@ -1,16 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { format, differenceInDays } from 'date-fns';
 import { DayPicker, DateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import LoginModal from '@/components/LoginModal';
 
-export default function BookingWidget({ propertyRef, price }: { propertyRef: string, price: number }) {
+export default function BookingWidget({ propertyRef, price, propertyTitle }: { propertyRef: string, price: number, propertyTitle?: string }) {
     const [date, setDate] = useState<DateRange | undefined>();
     const [showCalendar, setShowCalendar] = useState(false);
-    const [showLoginModal, setShowLoginModal] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
+    const [whatsappNumber, setWhatsappNumber] = useState('');
+    const [whatsappDefaultMessage, setWhatsappDefaultMessage] = useState('');
+
+    useEffect(() => {
+        fetch('/api/settings/whatsapp')
+            .then(r => r.json())
+            .then(data => {
+                if (data.whatsappNumber) setWhatsappNumber(data.whatsappNumber.replace(/\D/g, ''));
+                if (data.whatsappMessage) setWhatsappDefaultMessage(data.whatsappMessage);
+            })
+            .catch(() => { });
+    }, []);
+
+    function handleRequestToBook() {
+        const number = whatsappNumber || '33600000000'; // fallback
+        const checkIn = date?.from ? format(date.from, 'dd/MM/yyyy') : '';
+        const checkOut = date?.to ? format(date.to, 'dd/MM/yyyy') : '';
+        let message = whatsappDefaultMessage || `Bonjour, je suis intéressé(e) par la propriété`;
+        if (propertyTitle) message += ` : ${propertyTitle}`;
+        if (checkIn) message += `\nArrivée : ${checkIn}`;
+        if (checkOut) message += `\nDépart : ${checkOut}`;
+        const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
 
     const nights = date?.from && date?.to ? Math.max(0, differenceInDays(date.to, date.from)) : 0;
     const total = nights * price;
@@ -42,13 +64,7 @@ export default function BookingWidget({ propertyRef, price }: { propertyRef: str
                 </div>
             )}
 
-            {showLoginModal && (
-                <div className="mb-4 border border-[#B91C1C] rounded-lg p-4 text-center">
-                    <p className="text-[#B91C1C] font-semibold text-[15px]">
-                        You need to login in order to make a reservation
-                    </p>
-                </div>
-            )}
+
 
             <form action="/api/contact" method="post" className="flex flex-col gap-4">
                 <div className="flex gap-4 relative">
@@ -173,7 +189,7 @@ export default function BookingWidget({ propertyRef, price }: { propertyRef: str
                 <input type="hidden" name="propertyRef" value={propertyRef} />
                 <button
                     type="button"
-                    onClick={() => setShowLoginModal(true)}
+                    onClick={handleRequestToBook}
                     className="w-full bg-[#CD9B65] hover:bg-[#b88550] text-white font-bold text-[16px] py-4 rounded-lg transition-colors mt-2"
                 >
                     Request to Book
@@ -185,8 +201,6 @@ export default function BookingWidget({ propertyRef, price }: { propertyRef: str
                     You won&apos;t be charged yet
                 </div>
             </form>
-
-            <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
         </div>
     );
 }
