@@ -25,6 +25,7 @@ export const fr = {
             alpes: 'Alpes & Savoie',
             bordeaux: 'Bordeaux',
             provence: 'Provence',
+            cannes: 'Cannes',
         },
     },
     // ── Hero ──────────────────────────────────────────────────

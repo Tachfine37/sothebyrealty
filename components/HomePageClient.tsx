@@ -27,6 +27,7 @@ const DESTINATION_SLUGS = [
     { slug: 'alpes', count: 87, descFr: "Courchevel, Megève, Val d'Isère", descEn: "Courchevel, Megève, Val d'Isère" },
     { slug: 'bordeaux', count: 62, descFr: "Domaines, châteaux & vignobles", descEn: "Estates, châteaux & vineyards" },
     { slug: 'provence', count: 45, descFr: "Luberon, Alpilles & villages perchés", descEn: "Luberon, Alpilles & hilltop villages" },
+    { slug: 'cannes', count: 112, descFr: "La Croisette, Californie & Super Cannes", descEn: "La Croisette, Californie & Super Cannes" },
 ];
 
 const WHY_ICONS = [

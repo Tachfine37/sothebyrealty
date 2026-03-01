@@ -27,6 +27,7 @@ export const en: Translations = {
             alpes: 'Alps & Savoie',
             bordeaux: 'Bordeaux',
             provence: 'Provence',
+            cannes: 'Cannes',
         },
     },
     // ── Hero ──────────────────────────────────────────────────
