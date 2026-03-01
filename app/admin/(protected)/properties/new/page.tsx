@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import AmenitiesSelector from '@/components/admin/AmenitiesSelector';
 
 const DESTINATIONS = [
     { value: 'courchevel', label: 'Courchevel' },
@@ -138,8 +139,8 @@ export default function NewPropertyPage() {
                             <textarea name="description" required rows={8} className="form-input form-textarea" placeholder="Description détaillée de la propriété..." />
                         </div>
                         <div>
-                            <label className="form-label">Prestations (une par ligne)</label>
-                            <textarea name="amenities" rows={5} className="form-input form-textarea" placeholder="Piscine à débordement&#10;Vue mer panoramique&#10;Hammam & Sauna" />
+                            <label className="form-label">Prestations</label>
+                            <AmenitiesSelector initialAmenities={[]} />
                         </div>
                     </div>
 

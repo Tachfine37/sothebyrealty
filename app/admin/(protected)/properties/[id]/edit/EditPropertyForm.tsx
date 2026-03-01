@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { Property, PropertyImage } from '@prisma/client';
 import { parseAmenities } from '@/lib/utils';
 import PropertyImagesManager from './PropertyImagesManager';
+import AmenitiesSelector from '@/components/admin/AmenitiesSelector';
 
 const DESTINATIONS = [
     { value: 'courchevel', label: 'Courchevel' },
@@ -97,8 +98,8 @@ export default function EditPropertyForm({ property }: { property: PropertyWithI
                         <textarea name="description" required rows={8} className="form-input form-textarea" defaultValue={property.description} />
                     </div>
                     <div>
-                        <label className="form-label">Prestations (une par ligne)</label>
-                        <textarea name="amenities" rows={5} className="form-input form-textarea" defaultValue={parseAmenities(property.amenities).join('\n')} />
+                        <label className="form-label">Prestations</label>
+                        <AmenitiesSelector initialAmenities={parseAmenities(property.amenities)} />
                     </div>
                 </div>
 
