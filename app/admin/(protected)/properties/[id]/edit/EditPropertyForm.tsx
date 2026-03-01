@@ -119,6 +119,10 @@ export default function EditPropertyForm({ property }: { property: PropertyWithI
                             <input name="bedrooms" type="number" required min={0} className="form-input" defaultValue={property.bedrooms} />
                         </div>
                         <div>
+                            <label className="form-label">Capacité (Guests)</label>
+                            <input name="guests" type="number" required min={0} className="form-input" defaultValue={property.guests ?? 0} />
+                        </div>
+                        <div>
                             <label className="form-label">Salles de bains</label>
                             <input name="bathrooms" type="number" required min={0} className="form-input" defaultValue={property.bathrooms} />
                         </div>

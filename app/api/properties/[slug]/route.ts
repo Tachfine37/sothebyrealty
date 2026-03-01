@@ -10,6 +10,7 @@ const updateSchema = z.object({
     surface: z.number().positive().optional(),
     rooms: z.number().int().positive().optional(),
     bedrooms: z.number().int().positive().optional(),
+    guests: z.number().int().nonnegative().optional(),
     bathrooms: z.number().int().positive().optional(),
     type: z.string().min(2).optional(),
     destination: z.string().min(2).optional(),

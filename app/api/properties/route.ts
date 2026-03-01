@@ -4,13 +4,14 @@ import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
 const propertySchema = z.object({
-    slug: z.string().trim().min(1, "Slug est requis"),
-    title: z.string().trim().min(1, "Titre est requis"),
-    description: z.string().trim().min(1, "Description est requise"),
+    slug: z.string().min(1, "Slug est requis"),
+    title: z.string().min(1, "Titre est requis"),
+    description: z.string().min(1, "Description est requise"),
     price: z.number().positive("Le prix doit être positif"),
     surface: z.number().positive("La surface doit être positive"),
     rooms: z.number().int().nonnegative(),
     bedrooms: z.number().int().nonnegative(),
+    guests: z.number().int().nonnegative().optional(),
     bathrooms: z.number().int().nonnegative(),
     type: z.string().min(1),
     destination: z.string().min(1),

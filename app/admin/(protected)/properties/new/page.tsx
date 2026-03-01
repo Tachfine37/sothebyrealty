@@ -160,6 +160,10 @@ export default function NewPropertyPage() {
                                 <input name="bedrooms" type="number" required min={0} className="form-input" placeholder="7" />
                             </div>
                             <div>
+                                <label className="form-label">Capacité (Guests)</label>
+                                <input name="guests" type="number" required min={0} className="form-input" placeholder="14" defaultValue={0} />
+                            </div>
+                            <div>
                                 <label className="form-label">Salles de bains</label>
                                 <input name="bathrooms" type="number" required min={0} className="form-input" placeholder="6" />
                             </div>

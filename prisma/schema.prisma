@@ -24,6 +24,7 @@ model Property {
   surface     Int
   rooms       Int
   bedrooms    Int
+  guests      Int           @default(0)
   bathrooms   Int
   type        String        // VILLA | APPARTEMENT | CHALET | DOMAINE | PENTHOUSE | MAISON | TERRAIN
   destination String

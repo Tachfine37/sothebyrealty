@@ -148,7 +148,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                             <h3 className="text-xl font-bold text-luxury-black mb-6">Details</h3>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-[15px] text-gray-700">
                                 <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> ID: <span className="font-medium ml-2">{property.reference}</span></li>
-                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Guests: <span className="font-medium ml-2">{property.bedrooms * 2}</span></li>
+                                <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Guests: <span className="font-medium ml-2">{property.guests || (property.bedrooms * 2)}</span></li>
                                 <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Bedrooms: <span className="font-medium ml-2">{property.bedrooms}</span></li>
                                 <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Beds: <span className="font-medium ml-2">{property.bedrooms}</span></li>
                                 <li className="flex items-center"><span className="text-gray-400 mr-3">•</span> Bathrooms: <span className="font-medium ml-2">{property.bathrooms}</span></li>
