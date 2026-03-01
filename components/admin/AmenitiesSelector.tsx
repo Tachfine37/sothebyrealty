@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 const STANDARD_AMENITIES = [
+    // Original Luxury Amenities
     'Infinity Pool',
     'Indoor Pool',
     'Heated Pool',
@@ -25,7 +26,20 @@ const STANDARD_AMENITIES = [
     'Smart Home System',
     '24/7 Security',
     'Helipad',
-    'Staff Included'
+    'Staff Included',
+    // Added common Amenities & Facilities
+    'Barbecue Area',
+    'Dishwasher',
+    'Laundry',
+    'Microwave',
+    'Swimming Pool',
+    'TV Cable',
+    'Wi-Fi',
+    'Free Parking',
+    'Markets',
+    'Playground',
+    'Reception',
+    'Security'
 ];
 
 interface Props {
