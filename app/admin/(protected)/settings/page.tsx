@@ -66,7 +66,8 @@ export default function SettingsPage() {
             } else {
                 let errorDetails = '';
                 try {
-                    const data = await res.json();
+                    const clonedRes = res.clone();
+                    const data = await clonedRes.json();
                     errorDetails = data.error || JSON.stringify(data);
                 } catch {
                     errorDetails = await res.text();
