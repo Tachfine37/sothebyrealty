@@ -167,7 +167,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                         {/* Features */}
                         <section className="mb-12 pb-12 border-b border-gray-200 bg-[#f8f9fa] -mx-6 px-6 sm:-mx-12 sm:px-12 py-12 rounded-2xl">
-                            <h3 className="text-xl font-bold text-luxury-black mb-8">Prestations</h3>
+                            <h3 className="text-xl font-bold text-luxury-black mb-8">Amenities</h3>
 
                             {parsedAmenities.length > 0 ? (
                                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-[15px] text-gray-600">
