@@ -55,14 +55,7 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
                 <span className="text-2xl font-bold text-luxury-black">Price on demand</span>
             </div>
 
-            {/* Availability Banner */}
-            {date?.from && date?.to && (
-                <div className="mb-4 border border-[#8DC63F] rounded-lg p-4 text-center bg-white">
-                    <p className="text-[#8DC63F] font-bold text-lg">
-                        Your dates are available!
-                    </p>
-                </div>
-            )}
+
 
 
 
@@ -131,6 +124,18 @@ export default function BookingWidget({ propertyRef, price, propertyTitle }: { p
                         </div>
                     )}
                 </div>
+
+                {/* Availability Banner - Moved here */}
+                {date?.from && date?.to && (
+                    <div className="border border-[#8DC63F] rounded-lg p-4 text-center bg-[#f2f9eb] shadow-sm">
+                        <p className="text-[#8DC63F] font-bold text-[15px] flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Your dates are available!
+                        </p>
+                    </div>
+                )}
 
                 {/* Guests Field */}
                 <div className="border border-gray-300 rounded-lg p-3 bg-white flex flex-col gap-1 focus-within:ring-2 focus-within:ring-luxury-black">
