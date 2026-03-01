@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/supabase/adminCheck';
 
+export const dynamic = 'force-dynamic';
+
 // Helper to get or create the singleton settings record
 async function getSettings() {
     let settings = await prisma.siteSettings.findUnique({
