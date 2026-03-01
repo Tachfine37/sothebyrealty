@@ -9,6 +9,7 @@ import PropertyCard from '@/components/PropertyCard';
 import BookingWidget from '@/components/BookingWidget';
 import AvailabilityCalendar from '@/components/AvailabilityCalendar';
 import SaveButton from '@/components/SaveButton';
+import PropertyGallery from '@/components/PropertyGallery';
 import { formatPrice, formatPricePerSqm, DESTINATION_LABELS, parseAmenities } from '@/lib/utils';
 
 interface PageProps {
@@ -127,32 +128,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                 </div>
 
                 {/* Loziara-style Grid Gallery */}
-                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[50vh] min-h-[400px] mb-12 rounded-2xl overflow-hidden relative">
-                    {/* Main large image */}
-                    <div className="md:col-span-2 md:row-span-2 relative h-full">
-                        {mainImage ? (
-                            <Image src={mainImage.url} alt={mainImage.alt || property.title} fill className="object-cover hover:scale-105 transition-transform duration-500" priority sizes="(max-width: 768px) 100vw, 50vw" />
-                        ) : (
-                            <div className="w-full h-full bg-gray-100" />
-                        )}
-                    </div>
-                    {/* Secondary images (up to 4) */}
-                    {property.images.slice(1, 5).map((img: any, idx: number) => (
-                        <div key={img.id} className="relative hidden md:block h-full overflow-hidden">
-                            <Image src={img.url} alt={img.alt || ''} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="25vw" />
-                        </div>
-                    ))}
-
-                    {/* Fill empty spots if less than 5 images */}
-                    {Array.from({ length: Math.max(0, 4 - property.images.slice(1).length) }).map((_, i) => (
-                        <div key={`empty-${i}`} className="bg-gray-100 hidden md:block h-full"></div>
-                    ))}
-
-                    <button className="absolute bottom-6 right-6 bg-white px-4 py-2 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.15)] text-sm font-semibold flex items-center gap-2 hover:bg-gray-50 text-luxury-black transition-colors z-10">
-                        <svg className="w-4 h-4 border-[1.5px] border-black rounded-[2px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="6" cy="6" r="1" /><circle cx="12" cy="6" r="1" /><circle cx="18" cy="6" r="1" /><circle cx="6" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="18" cy="12" r="1" /><circle cx="6" cy="18" r="1" /><circle cx="12" cy="18" r="1" /><circle cx="18" cy="18" r="1" /></svg>
-                        Show all photos
-                    </button>
-                </div>
+                <PropertyGallery images={property.images} title={property.title} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
                     {/* Main Info Column */}
