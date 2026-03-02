@@ -25,24 +25,6 @@ const values = [
     },
 ];
 
-const team = [
-    {
-        name: 'Olivier',
-        title: 'CEO',
-        img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-        name: 'Sarah',
-        title: 'Marketing Director',
-        img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-        name: 'Alexandre',
-        title: 'Customer Care',
-        img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800"
-    },
-];
-
 export default function AboutPage() {
     return (
         <div className="bg-[#f9f9f9] min-h-screen font-sans">
@@ -114,27 +96,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Our Team Section */}
-            <section className="py-20 md:py-24 bg-[#f9f9f9]">
-                <div className="max-w-7xl mx-auto px-6 lg:px-12">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#DDA15E] mb-12">
-                        Our Team
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {team.map((m) => (
-                            <div key={m.name} className="flex flex-col">
-                                <div
-                                    className="w-full aspect-[4/3] bg-cover bg-top mb-4"
-                                    style={{ backgroundImage: `url('${m.img}')` }}
-                                ></div>
-                                <p className="text-[13px] text-[#555555]">
-                                    <span className="font-bold">{m.name}</span> - {m.title}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
 
             <Footer />
         </div>
