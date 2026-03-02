@@ -13,6 +13,7 @@ const DESTINATIONS = [
     { value: 'st-moritz', label: 'St Moritz' },
     { value: 'verbier', label: 'Verbier' },
     { value: 'zermatt', label: 'Zermatt' },
+    { value: 'cannes', label: 'Cannes' },
 ];
 
 const TYPES = ['VILLA', 'APPARTEMENT', 'CHALET', 'DOMAINE', 'PENTHOUSE', 'MAISON', 'TERRAIN'];
