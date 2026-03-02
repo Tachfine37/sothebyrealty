@@ -54,6 +54,7 @@ export const DESTINATION_LABELS: Record<string, string> = {
     'st-moritz': 'St Moritz',
     'verbier': 'Verbier',
     'zermatt': 'Zermatt',
+    'cannes': 'Cannes',
 };
 
 /**

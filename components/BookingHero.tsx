@@ -13,6 +13,7 @@ const DESTINATIONS = [
     { slug: 'st-moritz', labelFr: 'St Moritz', labelEn: 'St Moritz' },
     { slug: 'verbier', labelFr: 'Verbier', labelEn: 'Verbier' },
     { slug: 'zermatt', labelFr: 'Zermatt', labelEn: 'Zermatt' },
+    { slug: 'cannes', labelFr: 'Cannes', labelEn: 'Cannes' },
 ];
 
 function CalendarIcon() {
